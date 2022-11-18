@@ -43,7 +43,7 @@ def find_all_dishes(search : str):
     
 def find_recipe(dish_url : str): 
     
-    soup = BeautifulSoup(requests.get(dish_url).text))
+    soup = BeautifulSoup(requests.get(dish_url).text)
     ingredients_table = soup.find('div', {'class' : 'MuiGrid-root RCP__sc-vgpd2s-6 ghZzUe MuiGrid-container MuiGrid-spacing-xs-2'})
     
     #1 : for the ingredients 
