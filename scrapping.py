@@ -43,9 +43,14 @@ def find_all_dishes(search : str):
     
 def find_recipe(dish_url : str): 
     
-    soup = BeautifulSoup(requests.get(dish_url).text)
-    ingredients_table = soup.find('div', {'class' : 'MuiGrid-root RCP__sc-vgpd2s-6 ghZzUe MuiGrid-container MuiGrid-spacing-xs-2'})
+    soup = BeautifulSoup(requests.get(dish_url).text,features="lxml")
     
+    #0 : for the title of the recipe : 
+    recipe_title = soup.find('h1', {'class' : 'SHRD__sc-10plygc-0 itJBWW'})
+    recipe_title = recipe_title.get_text(separator="") 
+    
+    
+    ingredients_table = soup.find('div', {'class' : 'MuiGrid-root RCP__sc-vgpd2s-6 ghZzUe MuiGrid-container MuiGrid-spacing-xs-2'})
     #1 : for the ingredients 
     ingredients1 = ingredients_table.findAll('span', {'class' : 'RCP__sc-8cqrvd-3 itCXhd'})
     ingredients2 = ingredients_table.findAll('span', {'class' : 'RCP__sc-8cqrvd-3 cDbUWZ'})
@@ -67,7 +72,7 @@ def find_recipe(dish_url : str):
     for i in range (len(ingredients_names)) :
         recipe[ingredients_names[i]] = qtes[i]
     
-    return recipe 
+    return recipe_title, recipe 
             
                 
     
