@@ -12,7 +12,7 @@ def find_all_dishes(search : str):
     first_url = "https://www.marmiton.org/recettes/recherche.aspx?aqt=" + key_word
     
     #going to the first proposals (i.e. the first proposal page) for key_word : 
-    current_page = BeautifulSoup(requests.get(first_url).text) 
+    current_page = BeautifulSoup(requests.get(first_url).text, features="lxml") 
     
     #1 : getting all the urls for the proposal pages : 
     list_url = [first_url]
@@ -28,7 +28,7 @@ def find_all_dishes(search : str):
     #2 : getting all the urls for the recipe pages : 
     list_dishes_url = []
     for url in list_url : 
-        current_page = BeautifulSoup(requests.get(url).text)
+        current_page = BeautifulSoup(requests.get(url).text, features="lxml")
         found_dishes = current_page.findAll('a', {'class' : 'MRTN__sc-1gofnyi-2 gACiYG'})
         #all the recipes found on the current page 
         for dish in found_dishes:
@@ -42,6 +42,7 @@ def find_all_dishes(search : str):
     
     
 def find_recipe(dish_url : str): 
+#returns a dictionnary with the recipe corresponding to the url 
     
     soup = BeautifulSoup(requests.get(dish_url).text,features="lxml")
     
@@ -73,13 +74,16 @@ def find_recipe(dish_url : str):
         recipe[ingredients_names[i]] = qtes[i]
     
     return recipe_title, recipe 
+#we should add other features like the mark, the nb of people, the number of opinions...
             
 def find_all_recipes(search : str) : 
+#returns a dictionnary with all the the recipes corresponding to the research
+    
     list_dishes_url = find_all_dishes(search)
     all_recipes = {}
     for dish in list_dishes_url : 
         all_recipes[find_recipe(dish)[0]] = find_recipe(dish)[1] 
-        #we can other other features like the mark, the nb of people, the number of opinions...
+        #we should add other features like the mark, the nb of people, the number of opinions...
     
     return all_recipes
         
