@@ -74,6 +74,15 @@ def find_recipe(dish_url : str):
     
     return recipe_title, recipe 
             
+def find_all_recipes(search : str) : 
+    list_dishes_url = find_all_dishes(search)
+    all_recipes = {}
+    for dish in list_dishes_url : 
+        all_recipes[find_recipe(dish)[0]] = find_recipe(dish)[1] 
+        #we can other other features like the mark, the nb of people, the number of opinions...
+    
+    return all_recipes
+        
                 
     
     
