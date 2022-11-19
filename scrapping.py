@@ -42,7 +42,7 @@ def find_all_dishes(search : str):
     
     
 def find_recipe(dish_url : str): 
-#returns a dictionnary with the recipe corresponding to the url 
+#returns a list with the name of the recipe and a dictionnary with the recipe 
     
     soup = BeautifulSoup(requests.get(dish_url).text,features="lxml")
     
