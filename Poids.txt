@@ -1,0 +1,40 @@
+Ail tête 80
+Ail gousse 7
+Artichaut Camus 350
+Artichaut Castel 500
+Artichaut Poivrade 60
+Artichaut Violet 150
+Asperges 50
+Aubergine 200
+Aubergine 400
+Carotte 125
+Céleri-rave 1000
+Chou-fleur 1500
+Chou Vert 2000
+Concombre 200
+Courgette 200
+Cresson 200
+Échalote 40
+Laitue 0,250
+Navet long 300
+Navet rond 200
+Oignon 100
+Poireau 150
+Poivron 300
+Pomme de terre 120
+Tomate 125
+Abricot 55
+Ananas 2000
+Banane 150
+Citron 100
+Clémentine 70
+Datte 35
+Figue noire 50
+Melon 650
+Orange 200
+Pamplemousse 400
+Pêche 150
+Poire 120
+Pomme 175
+olive 4
+câpre 0.5
