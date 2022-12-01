@@ -16,8 +16,7 @@ Courgette 200
 Cresson 200
 Échalote 40
 Laitue 0,250
-Navet long 300
-Navet rond 200
+Navet 250
 Oignon 100
 Poireau 150
 Poivron 300
@@ -38,3 +37,10 @@ Poire 120
 Pomme 175
 olive 4
 câpre 0.5
+feuille 0.5
+sel 1
+poivre 1
+clou 1
+jambon 65
+steak 200
+
