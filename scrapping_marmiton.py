@@ -54,18 +54,18 @@ def find_recipe(dish_url : str):
     recipe_title = recipe_title.get_text(separator="") 
     
     
-    ingredients_table = soup.find('div', {'class' : 'MuiGrid-root RCP__sc-vgpd2s-6 ghZzUe MuiGrid-container MuiGrid-spacing-xs-2'})
-    #1 : for the ingredients 
-    ingredients1 = ingredients_table.findAll('span', {'class' : 'RCP__sc-8cqrvd-3 itCXhd'})
-    ingredients2 = ingredients_table.findAll('span', {'class' : 'RCP__sc-8cqrvd-3 cDbUWZ'})
-    ingredients = ingredients1 + ingredients2
+    #1 : for the ingredients
+    
+    ingredients_cells = soup.findAll('div', {'class' : 'MuiGrid-root MuiGrid-item MuiGrid-grid-xs-3 MuiGrid-grid-sm-3'})
     ingredients_names = []
-    for ingredient in ingredients:
-        ingredient_name = ingredient.string
-        ingredients_names.append(ingredient_name)
+    for cell in ingredients_cells:
+        ingredient = cell.findAll('span', {'class' : 'RCP__sc-8cqrvd-3 itCXhd'})
+        if len(ingredient) == 0:
+            ingredient = cell.findAll('span', {'class' : 'RCP__sc-8cqrvd-3 cDbUWZ'})
+        ingredients_names.append(ingredient[0].string)
     
     #2: for the quantites
-    qte = ingredients_table.findAll('span', {'class' : 'SHRD__sc-10plygc-0 epviYI'})
+    qte = soup.findAll('span', {'class' : 'SHRD__sc-10plygc-0 epviYI'})
     qtes = []
     for q in qte:
         string = q.text.replace("\xa0", "")
