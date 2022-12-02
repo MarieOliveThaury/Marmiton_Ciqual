@@ -43,4 +43,10 @@ poivre 1
 clou 1
 jambon 65
 steak 200
-
+pruneau 15
+piment 30
+cerise 6
+citron 110
+fraise 10
+avocat 220
+noix 8
