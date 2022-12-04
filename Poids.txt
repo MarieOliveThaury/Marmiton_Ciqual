@@ -50,3 +50,6 @@ citron 110
 fraise 10
 avocat 220
 noix 8
+truite 150
+saumon 150
+
