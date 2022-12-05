@@ -77,7 +77,8 @@ def find_recipe(dish_url : str):
         recipe[ingredients_names[i]] = qtes[i]
     
     #4 : for the number of people : 
-    nb_people = soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 knYsyq'}) or soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 hYSrSW'}) or '4'
+    nb_people = soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 knYsyq'}) or soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 hYSrSW'}) or '4' 
+    #by default, we say that the recipe is for 4 persons 
     if nb_people != '4' : 
         nb_people = nb_people.get_text(separator="")
     nb_people = float(nb_people)
