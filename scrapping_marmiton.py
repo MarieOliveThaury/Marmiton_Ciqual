@@ -77,7 +77,7 @@ def find_recipe(dish_url : str):
         recipe[ingredients_names[i]] = qtes[i]
     
     #4 : for the number of people : 
-    nb_people = soup.find('h1', {'span' : 'SHRD__sc-w4kph7-4 knYsyq'})
+    nb_people = soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 knYsyq'})
     nb_people = nb_people.get_text(separator="")
     
     return recipe_title, recipe, nb_people
