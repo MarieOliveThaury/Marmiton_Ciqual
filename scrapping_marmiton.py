@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import lxml
 import re
 import numpy as np
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 def find_all_dishes(search : str): 
 #returns a list with all the url of the recipes corresponding to the research
@@ -76,8 +76,10 @@ def find_recipe(dish_url : str):
     for i in range (len(ingredients_names)) :
         recipe[ingredients_names[i]] = qtes[i]
     
-    return recipe_title, recipe 
-#we should add other features like the mark, the nb of people, the number of opinions...
+    #4 : for the number of people : 
+    nb_people = soup.find('h1', {'span' : 'SHRD__sc-w4kph7-4 knYsyq'}).get_text(separator="")
+    
+    return recipe_title, recipe, nb_people
             
 def find_all_recipes(search : str) : 
 #returns a dictionnary with all the the recipes corresponding to the research
@@ -85,7 +87,7 @@ def find_all_recipes(search : str) :
     list_dishes_url = find_all_dishes(search)
     all_recipes = {}
     for dish in tqdm(list_dishes_url) : 
-        all_recipes[find_recipe(dish)[0]] = find_recipe(dish)[1] 
+        all_recipes[find_recipe(dish)[0]] = {'recette' : find_recipe(dish)[1], 'nombre de personnes' : find_recipe(dish)[2]}
         #we should add other features like the mark, the nb of people, the number of opinions...
     
     return all_recipes
