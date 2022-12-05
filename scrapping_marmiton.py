@@ -77,8 +77,10 @@ def find_recipe(dish_url : str):
         recipe[ingredients_names[i]] = qtes[i]
     
     #4 : for the number of people : 
-    nb_people = soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 knYsyq'})
-    nb_people = nb_people.get_text(separator="")
+    nb_people = soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 knYsyq'}) or soup.find('span', {'class' : 'SHRD__sc-w4kph7-4 hYSrSW'}) or '4'
+    if nb_people != '4' : 
+        nb_people = nb_people.get_text(separator="")
+    nb_people = float(nb_people)
     
     return recipe_title, recipe, nb_people
             
@@ -88,7 +90,7 @@ def find_all_recipes(search : str) :
     list_dishes_url = find_all_dishes(search)
     all_recipes = {}
     for dish in tqdm(list_dishes_url) : 
-        all_recipes[find_recipe(dish)[0]] = {'recette' : find_recipe(dish)[1], 'nombre de personnes' : find_recipe(dish)[2]}
+        all_recipes[find_recipe(dish)[0]] = {'lien' : dish,'recette' : find_recipe(dish)[1], 'nombre de personnes' : find_recipe(dish)[2]}
         #we should add other features like the mark, the nb of people, the number of opinions...
     
     return all_recipes
