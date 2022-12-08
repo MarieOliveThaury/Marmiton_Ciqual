@@ -1,11 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-import lxml
+import html.parser
 import re
 import numpy as np
 from tqdm.auto import tqdm
 
-def find_all_dishes(search : str): 
+def find_all_dishes(search : str, nb_of_recipes : int): 
 #returns a list with all the url of the recipes corresponding to the research
     
     #making the research compatible with an url  : 
@@ -13,23 +13,23 @@ def find_all_dishes(search : str):
     first_url = "https://www.marmiton.org/recettes/recherche.aspx?aqt=" + key_word
     
     #going to the first proposals (i.e. the first proposal page) for key_word : 
-    current_page = BeautifulSoup(requests.get(first_url).text, features="lxml") 
+    current_page = BeautifulSoup(requests.get(first_url).text, features="html.parser") 
     
     #1 : getting all the urls for the proposal pages : 
     list_url = [first_url]
     for url in list_url :
-        current_page = BeautifulSoup(requests.get(url).text, features="lxml")
+        current_page = BeautifulSoup(requests.get(url).text, features="html.parser")
         found_pages = current_page.findAll('a', {'class' : 'SHRD__sc-1ymbfjb-1 MTkAM'})
         #all the links that appear on the current page to go to other pages 
         for page in found_pages : 
             new_url = "https://www.marmiton.org" + page.get('href')
-            if new_url not in list_url : 
+            if len(list_url) < nb_of_recipes and new_url not in list_url : 
                 list_url.append(new_url)
     
     #2 : getting all the urls for the recipe pages : 
     list_dishes_url = []
     for url in list_url : 
-        current_page = BeautifulSoup(requests.get(url).text, features="lxml")
+        current_page = BeautifulSoup(requests.get(url).text, features="html.parser")
         found_dishes = current_page.findAll('a', {'class' : 'MRTN__sc-1gofnyi-2 gACiYG'})
         #all the recipes found on the current page 
         for dish in found_dishes:
@@ -47,7 +47,7 @@ def find_recipe(dish_url : str):
 #1) the name of the recipe 
 #2) a dictionnary with the recipe 
     
-    soup = BeautifulSoup(requests.get(dish_url).text,features="lxml")
+    soup = BeautifulSoup(requests.get(dish_url).text,features="html.parser")
     
     #0 : for the title of the recipe : 
     recipe_title = soup.find('h1', {'class' : 'SHRD__sc-10plygc-0 itJBWW'})
@@ -85,10 +85,10 @@ def find_recipe(dish_url : str):
     
     return recipe_title, recipe, nb_people
             
-def find_all_recipes(search : str) : 
+def find_all_recipes(search : str, nb_of_recipes : int) : 
 #returns a dictionnary with all the the recipes corresponding to the research
     
-    list_dishes_url = find_all_dishes(search)
+    list_dishes_url = find_all_dishes(search, nb_of_recipes)
     all_recipes = {}
     for dish in tqdm(list_dishes_url) : 
         all_recipes[find_recipe(dish)[0]] = {'lien' : dish,'recette' : find_recipe(dish)[1], 'nombre de personnes' : find_recipe(dish)[2]}
