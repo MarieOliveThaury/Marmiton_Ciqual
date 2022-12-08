@@ -3,8 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
-#from IPython.display import Image
-
+from IPython.display import Image
+import time 
 
 def Pl_to_Sg(pluriel : str):
     
@@ -48,9 +48,11 @@ def Pl_to_Sg(pluriel : str):
 
 
 
-#############################################################################################################
-####### LA FONCTION SUIVANTE EST FAITE PAR OLIVE MAIS ELLE N EST PAS ENCORE TERMINEE ########################
-############################################################################################################# 
+###################################################################################
+# la fonction suivante est faite par marie-olive : ################################
+# elle fonctionne mais elle est beaucoup beaucoup trop lente (10 min par recette) #
+# en fait elle récupère plein de trucs dont on a pas besoin #######################
+###################################################################################
 
 
 def get_nutrition_recipe(recipe : dict) : 
@@ -63,6 +65,7 @@ def get_nutrition_recipe(recipe : dict) :
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     driver = webdriver.Chrome("chromedriver", options=chrome_options)
+
     
     driver.get('https://ciqual.anses.fr/')
     switch_to_french = driver.find_element(By.XPATH, "//a[@id='fr-switch']")
@@ -76,23 +79,29 @@ def get_nutrition_recipe(recipe : dict) :
         research_bar = driver.find_element("xpath", "//input[@id='champ-recherche']")
         research_bar.clear()
         research_bar.send_keys(Pl_to_Sg(ingredients[i]))
-
+    
         search_button = driver.find_element("xpath", "//a[@id='loupe']")
         search_button.click()
+        time.sleep(1)
+        
+        search_button_essentials = driver.find_elements("xpath", "//a[@data-toggle='tab']") #going to "composition abrégée"
+        search_button_essentials[1].click()
 
-        nutrition = driver.find_elements("xpath", "//td")
+        nutrition = driver.find_elements("xpath", "//td") ##le problème est là : il faut directement récupérer ce qui nous intéresse 
 
         list_nutrition = [] 
         n = 0 
-        for quality in nutrition :
+        for quality in nutrition : 
             texte = quality.text
             if n%5 == 0 and texte != "":  #we have to add the fact that only select 5 or 6 criterias and avoid to take them all
                 list_nutrition.append(texte)
             if n%5 == 1 and texte != "" : 
                 if "<" in texte : 
                     texte = "0"
+                elif texte.isalpha(): #avoid quantities as "traces" 
+                    texte = "0"
                 list_nutrition.append(float(texte.replace(',','.')))
             n += 1         
         dic_nutrition[ingredients[i]] = list_nutrition
     
-    return dic_nutrition 
+    return dic_nutrition
