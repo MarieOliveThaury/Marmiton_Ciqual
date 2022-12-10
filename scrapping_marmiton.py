@@ -32,13 +32,13 @@ def find_all_dishes(search : str, nb_of_recipes : int):
         current_page = BeautifulSoup(requests.get(url).text, features="html.parser")
         found_dishes = current_page.findAll('a', {'class' : 'MRTN__sc-1gofnyi-2 gACiYG'})
         #all the recipes found on the current page
-        if len(list_url) < nb_of_recipes:
+        if len(list_dishes_url) < nb_of_recipes:
             for dish in found_dishes:
                 href = dish.get('href')
                 if href[0:17] == '/recettes/recette' : 
                 #sometimes, marmiton proposes albums, or videos without recipes instead of recipes
                     new_url = "https://www.marmiton.org" + href
-                    if len(list_url) < nb_of_recipes:
+                    if len(list_dishes_url) < nb_of_recipes:
                         list_dishes_url.append(new_url)
                 
     return list_dishes_url
