@@ -52,3 +52,14 @@ avocat 220
 noix 8
 truite 150
 saumon 150
+jaune d'oeuf 20
+jaunes d'oeuf 25
+oeuf 55
+câpre 1
+capre 1
+mozzarella 80
+cornichon 20
+pain 120
+cube 10
+artichaut 300
+fin 0
