@@ -23,7 +23,7 @@ def find_all_dishes(search : str, nb_of_recipes : int):
         #all the links that appear on the current page to go to other pages 
         for page in found_pages : 
             new_url = "https://www.marmiton.org" + page.get('href')
-            if len(list_url) < nb_of_recipes and new_url not in list_url : 
+            if new_url not in list_url : 
                 list_url.append(new_url)
     
     #2 : getting all the urls for the recipe pages : 
@@ -31,13 +31,15 @@ def find_all_dishes(search : str, nb_of_recipes : int):
     for url in list_url : 
         current_page = BeautifulSoup(requests.get(url).text, features="html.parser")
         found_dishes = current_page.findAll('a', {'class' : 'MRTN__sc-1gofnyi-2 gACiYG'})
-        #all the recipes found on the current page 
-        for dish in found_dishes:
-            href = dish.get('href')
-            if href[0:17] == '/recettes/recette' : 
-            #sometimes, marmiton proposes albums, or videos without recipes instead of recipes
-                new_url = "https://www.marmiton.org" + href
-                list_dishes_url.append(new_url)
+        #all the recipes found on the current page
+        if len(list_url) < nb_of_recipes:
+            for dish in found_dishes:
+                href = dish.get('href')
+                if href[0:17] == '/recettes/recette' : 
+                #sometimes, marmiton proposes albums, or videos without recipes instead of recipes
+                    new_url = "https://www.marmiton.org" + href
+                    if len(list_url) < nb_of_recipes:
+                        list_dishes_url.append(new_url)
                 
     return list_dishes_url
     
