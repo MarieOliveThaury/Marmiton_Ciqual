@@ -62,4 +62,23 @@ cornichon 20
 pain 120
 cube 10
 artichaut 300
+feuille 1
+patate douce 200
+patate 200
+filet 200
+pincée 5
+colin 150
+feta 80
+brique 1000
+bouquet 20
+bouillon 50
+endive 150
+pate 200
+pâte 200
+crottin 80
+crottin de chavignol 80
+crottins de chavignol 80
+escalope 200
+reblochon 500
+chèvre 250
 fin 0

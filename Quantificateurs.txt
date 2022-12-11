@@ -16,3 +16,15 @@ bouquet 20
 bouquets 20
 gousse 10
 gousses 10
+verre 200
+noix 15
+branche 5
+boîte 250
+filet 200
+pincée 5
+brique 1000
+cube 20
+kg 1000
+sachet 15
+poignée 20
+fin 0
