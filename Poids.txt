@@ -81,4 +81,6 @@ crottins de chavignol 80
 escalope 200
 reblochon 500
 chèvre 250
+fond d'artichaut 200
+fonds d'artichaut 200
 fin 0
