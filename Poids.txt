@@ -35,6 +35,15 @@ Pamplemousse 400
 Pêche 150
 Poire 120
 Pomme 175
+aiguillette 200
+aile 150
+cuisse 150
+langoustine 100
+pilon 125
+ail 80
+chorizo 200
+échine 200
+calamar 450
 olive 4
 câpre 0.5
 feuille 0.5
@@ -83,4 +92,26 @@ reblochon 500
 chèvre 250
 fond d'artichaut 200
 fonds d'artichaut 200
+kiri 18
+saucisse 150
+baguette 150
+mangue 400
+kiwi 100
+gambas 25
+mandarine 55
+figue 50
+papaye 600
+fruit de la passion 2000
+fruits de la passion 2000
+pastèque 2500
+menthe 1
+yaourt 125
+laitue 200
+roquette 200
+chou 400
+crevette 20
+poulet 1500
+lapin 1000
+encornet 300
+congre 200
 fin 0

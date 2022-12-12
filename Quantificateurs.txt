@@ -27,4 +27,10 @@ cube 20
 kg 1000
 sachet 15
 poignée 20
+paquet 400
+bâton 2
+baton 2
+morceaux 5
+goutte 0.1
+dose 0.1
 fin 0
