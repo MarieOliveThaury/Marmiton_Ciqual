@@ -2,20 +2,18 @@ import unidecode
 import math
 
 def CleanString(pl : str):
-     """Function that makes a string singular originally in the plural and removes the accents
-        caution : this function only works for french words related to food 
+    """Function that makes a string singular originally in the plural and removes the accents
+    caution : this function only works for french words related to food 
     
     Args:
         pl (str) : raw text corresponding to an ingrendient 
 
     Returns:
-        plural (str) : the singular of pl, without the accents 
-    """
+        plural (str) : the singular of pl, without the accents """
     
     plural = unidecode.unidecode(pl)
     
     #First, let's pay attention to some execptions : 
-
     except_ou = ['choux'] #foods ending in "-ou" and that take an "-x" in the plural
     except_sg_s = ['anchois', 'brebis', 'jus', 'pois', 'radis']  #foods ending in "-s" even in the singular 
     except_pl = ['rillettes'] #Foods that are always used in the plural, that do not really exist in the singular
@@ -46,14 +44,16 @@ def CleanString(pl : str):
     
 
 def clean(string) :
-     """cleans the collected data corresponding to the average content of an ingredient (e.g. tomato) in a nutritional quality (e.g. lipids) 
-
+    
+    """cleans the collected data corresponding to the average content of an ingredient (e.g. tomato) in a nutritional quality (e.g. lipids) 
+    
     Args:
         string (str) : the average content of an ingredient (e.g. tomato) in a nutritional quality (e.g. lipids) 
 
     Returns:
         string (float) : the average content of an ingredient (e.g. tomato) in a nutritional quality (e.g. lipids) ready to be analysed
     """
+    
     if type(string) == str : 
         if ("<" in string) or (string.isalpha()) or (string =="-"): 
             string = "0"
