@@ -126,13 +126,16 @@ def find_all_recipes(search : str, N : int) :
         ingredients = list(dict_recipe['recette'].keys())
         qtes = list(dict_recipe['recette'].values())
     
-        dict_iq = {'Ingrédients' : ingredients, 'Quantités' : qtes}
+        dict_iq = {'Ingrédient' : ingredients, 'Quantités' : qtes}
         df = pd.DataFrame(dict_iq)
         df['Nom recette'] = recipes_names[i]
     
         df_recipes.append(df)
     
     full_df = pd.concat(df_recipes, axis=0, ignore_index=True)
+    full_df = full_df.reindex(columns=['Nom recette', 'Ingrédient', 'Quantités'])
+    full_df = full_df.rename(columns = {'Ingrédients' : 'Ingrédient', 'Quantités' : 'Quantité'})
+    full_df['Ingrédient'] = full_df['Ingrédient'].apply(lambda x: CleanString(x))
     
     return full_df
         
