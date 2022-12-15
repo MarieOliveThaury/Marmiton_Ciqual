@@ -14,6 +14,7 @@ for ligne in quantif:
      
 
 def convert(dico):
+    
     for x,y in dico.items():
         
             
@@ -56,8 +57,9 @@ def what_s_missing(dico):
                 for k,v in y['recette'].items():
                     l=str(''.join(z for z in v if not z.isdigit()))
                     if l not in ['.g','g']:
-
                         print(k,v)
+           
+        
 def filler(dico):
     for x,y in dico.items():
                 element=[]
