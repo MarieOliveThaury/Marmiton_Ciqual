@@ -48,7 +48,7 @@ def nutrition(df_recipe):
         
         search_button = driver.find_element("xpath", "//a[@id='loupe']")
         search_button.click()
-        time.sleep(1)
+        time.sleep(.5)
         
         
         no_result = driver.find_elements("xpath", '//*[@id="no-result"]/div[2]/div[1]/span')
@@ -57,6 +57,7 @@ def nutrition(df_recipe):
             #going to "composition abrégée" (basic composition) : 
             search_button_essentials = driver.find_elements("xpath", "//a[@data-toggle='tab']")
             search_button_essentials[1].click()
+            time.sleep(.5)
             
             #collecting the nutrition qualities (e.g. lipids) and the average content for this ingredient 
             nb_nutr = driver.find_elements("xpath", '//*[@id="compo-inco"]/table/tbody/tr')
