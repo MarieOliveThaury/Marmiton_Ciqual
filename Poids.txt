@@ -114,4 +114,5 @@ poulet 1500
 lapin 1000
 encornet 300
 congre 200
+écrevisse 100
 fin 0

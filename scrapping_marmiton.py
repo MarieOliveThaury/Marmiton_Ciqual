@@ -36,7 +36,7 @@ def convert(dico):
                                     if a in k:
                                         y['recette'].update({k:str(b*n)+"g"})
                                 for a,b in dicoquantif.items():
-                                    if a in v:
+                                    if l in ['.'+a,a,a+'s','.'+a+'s','⁄'+a,'⁄'+a+'s'] :
                                         y['recette'].update({k:str(b*n)+"g"})       
                             
                 
@@ -50,7 +50,7 @@ def convert(dico):
                                         if a in k:
                                             y['recette'].update({k:str(b*n)+"g"})
                                     for a,b in dicoquantif.items():
-                                        if a in v:
+                                        if l in ['.'+a,a,a+'s','.'+a+'s','⁄'+a,'⁄'+a+'s'] :
                                             y['recette'].update({k:str(b*n)+"g"})       
                                         
                         elif v=="": #on définit une valeur standardisé pour les éléments manquants. Ces élements sont souvent utilisés en des quantités limitées.

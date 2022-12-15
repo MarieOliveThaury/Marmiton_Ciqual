@@ -33,4 +33,7 @@ baton 2
 morceaux 5
 goutte 0.1
 dose 0.1
+feuille 1
+c.à.s rase 15
+portion 200
 fin 0
