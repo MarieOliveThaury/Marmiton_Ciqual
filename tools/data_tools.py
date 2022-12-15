@@ -1,7 +1,6 @@
 import unidecode
 import math
 
-#Fonction qui met au singulier une chaîne de caractère initialement au pluriel, et qui enlève les accents
 def CleanString(pl : str):
      """Function that makes a string singular originally in the plural and removes the accents
         caution : this function only works for french words related to food 
@@ -13,7 +12,6 @@ def CleanString(pl : str):
         plural (str) : the singular of pl, without the accents 
     """
     
-
     plural = unidecode.unidecode(pl)
     
     #First, let's pay attention to some execptions : 
