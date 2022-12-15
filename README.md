@@ -1,4 +1,6 @@
-#**Projet Python 2A : évaluation de la qualité nutritionnelle de recettes Marmiton **
+# **Projet Python 2A : évaluation de la qualité nutritionnelle de recettes Marmiton**
+
+
 
 Nathan GUESSE • Matthieu KRUBA • Marie-Olive THAURY
 
