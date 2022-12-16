@@ -38,7 +38,7 @@ def nutrition(df_recipe):
     
     df_nutr_list = []
     
-    for ingredient in ingredients_list:
+    for ingredient in tqdm(ingredients_list):
         
         #going to the page correponding to the ingredient 
         research_bar = driver.find_element("xpath", "//input[@id='champ-recherche']")
