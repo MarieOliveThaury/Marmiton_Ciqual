@@ -78,7 +78,7 @@ def usable(dico):
                 n=float(str(v).replace('g',''))
                 y['recette'].update({k:float(n)})
                 
-def per_personne(dico):
+def per_person(dico):
     for x,y in dico.items():
         for k,v in y['recette'].items():
                 
@@ -90,6 +90,6 @@ def conversion(dico):
     convert(dico)
     filler(dico)
     usable(dico)
-    per_personne(dico)
+    per_person(dico)
     
 print("conversion_tools importé !")
