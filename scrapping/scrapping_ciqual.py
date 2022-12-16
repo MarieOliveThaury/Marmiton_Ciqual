@@ -32,6 +32,7 @@ def nutrition(df_recipe):
     #opening the french version : 
     switch_to_french = driver.find_element(By.XPATH, "//a[@id='fr-switch']")
     driver.execute_script("arguments[0].click();", switch_to_french)
+    time.sleep(2)
     
     ingredients_list = df_recipe['Ingrédient']
     
@@ -44,7 +45,7 @@ def nutrition(df_recipe):
         research_bar.clear()
         research_bar.send_keys(ingredient)
         if ingredient == ingredients_list[0]:
-            time.sleep(1)
+            time.sleep(2)
         
         search_button = driver.find_element("xpath", "//a[@id='loupe']")
         search_button.click()
