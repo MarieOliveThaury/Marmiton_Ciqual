@@ -22,6 +22,9 @@ def nutrition(df_recipe):
     Returns :
         df_nutr_all (pandas DataFrame) : a table with the name of the recipe, the ingredient, the quantity of the ingredient, the nutritional quality and the average content for this ingredient 
     """
+    print("Etape 2 : évaluons la qualité nutritionnelle des recettes que vous propose Marmiton")
+    print("Si le programme plante, veuillez relancer le Kernel, un problème lié au scrapping est peut-être survenu")
+    
     #st = time.time()
     
     #going to ciqual 
@@ -77,8 +80,12 @@ def nutrition(df_recipe):
     
     driver.quit()
     df_nutr_all = pd.concat(df_nutr_list, axis=0, ignore_index=True)
+    
     #et = time.time()
     #print(et - st)
+    
+    print("La qualité nutritionnelle des recettes correspondant à votre recherche est récupérée !") 
+    
     return df_nutr_all
 
 
