@@ -28,7 +28,7 @@ def merge_and_clean(recipe, nutrition) :
 
     result = result.reset_index()
     for i in columns : 
-        result[i] = result[i].apply(lambda x : clean(x))
+        result[i] = result[i].apply(lambda x : string_to_float(x))
         result[i] = result[i]*result['Quantité']/100
         if i == 'Protéines, N x 6.25 (g/100 g)' : 
             result[i] = result[i]*6.25
