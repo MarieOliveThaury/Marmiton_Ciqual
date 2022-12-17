@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
 #from IPython.display import Image
-import time
 from scrapping.scrapping_marmiton import *
 
 #setting the driver 
@@ -24,8 +23,6 @@ def nutrition(df_recipe):
     """
     print("Etape 2 : évaluons la qualité nutritionnelle des recettes que vous propose Marmiton")
     print("Si le programme plante, veuillez relancer le Kernel, un problème lié au scrapping est peut-être survenu")
-    
-    #st = time.time()
     
     #going to ciqual 
     driver = webdriver.Chrome("chromedriver", options=chrome_options)
@@ -80,9 +77,6 @@ def nutrition(df_recipe):
     
     driver.quit()
     df_nutr_all = pd.concat(df_nutr_list, axis=0, ignore_index=True)
-    
-    #et = time.time()
-    #print(et - st)
     
     print("La qualité nutritionnelle des recettes correspondant à votre recherche est récupérée !") 
     
