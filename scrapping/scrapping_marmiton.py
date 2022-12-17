@@ -18,6 +18,7 @@ def find_all_dishes(search : str, N : int):
     Returns:
         list_dishes_url (list) : list with the urls of the N recipes 
     """
+    
     #making the research compatible with an url  : 
     key_word = search.lower().replace(' ', '-')
     first_url = "https://www.marmiton.org/recettes/recherche.aspx?aqt=" + key_word
@@ -27,14 +28,17 @@ def find_all_dishes(search : str, N : int):
     
     #1 : getting all the urls for the proposal pages : 
     list_url = [first_url]
+    n = 12 #on average, a proposal page contains 12 recipes
     for url in list_url :
-        current_page = BeautifulSoup(requests.get(url).text, features="html.parser")
-        found_pages = current_page.findAll('a', {'class' : 'SHRD__sc-1ymbfjb-1 MTkAM'})
-        #all the links that appear on the current page to go to other pages 
-        for page in found_pages : 
-            new_url = "https://www.marmiton.org" + page.get('href')
-            if new_url not in list_url : 
-                list_url.append(new_url)
+        if n < N :
+            current_page = BeautifulSoup(requests.get(url).text, features="html.parser")
+            found_pages = current_page.findAll('a', {'class' : 'SHRD__sc-1ymbfjb-1 MTkAM'})
+            #all the links that appear on the current page to go to other pages 
+            for page in found_pages : 
+                new_url = "https://www.marmiton.org" + page.get('href')
+                if new_url not in list_url : 
+                    list_url.append(new_url)
+            n += 12
     
     #2 : getting all the urls for the recipe pages : 
     list_dishes_url = []
