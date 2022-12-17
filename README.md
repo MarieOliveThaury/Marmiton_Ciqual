@@ -1,6 +1,7 @@
 # **Evaluation de la qualité nutritionnelle de recettes Marmiton**
 
 ENSAE ParisTech 2022-2023 
+
 Nathan GUESSE • Matthieu KRUBA • Marie-Olive THAURY
 
 *Ce projet est réalisé dans le cadre du cours de **Python pour la data-science (2A)** de Lino GALIANA pour l'année 2022-2023. Il est supervisé par Romain AVOUAC*.
