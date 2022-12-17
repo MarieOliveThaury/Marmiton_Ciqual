@@ -1,7 +1,7 @@
 import unidecode
 import math
 
-def CleanString(pl : str):
+def no_accent_and_sg(pl : str):
     """Function that makes a string singular originally in the plural and removes the accents
     caution : this function only works for french words related to food 
     
@@ -43,7 +43,7 @@ def CleanString(pl : str):
         return plural
     
 
-def clean(string) :
+def string_to_float(string) :
     
     """cleans the collected data corresponding to the average content of an ingredient (e.g. tomato) in a nutritional quality (e.g. lipids) 
     
