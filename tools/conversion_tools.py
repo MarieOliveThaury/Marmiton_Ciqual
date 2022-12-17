@@ -10,85 +10,130 @@ corres2 = open("references/Quantificateurs.txt", "r")
 quantif=corres2.readlines()
 dicoquantif={}
 for ligne in quantif:
-    dicoquantif[str(''.join(z for z in ligne if not z.isdigit()).replace(" \n", "").lower())]=int("".join(re.findall('\d',str(ligne))))
+    dicoquantif[str(''.join(z for z in ligne if not z.isdigit()).replace(" \n",       "").lower())]=int("".join(re.findall('\d',str(ligne))))
      
 
 def convert(dico):
-    
-    for x,y in dico.items():
+    """
+    Args :
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. 
+The form of the dictionary is as follows : 
+{name1 : {recipe : {ingredient11: quantity11, ingredient12 : quantity12}, nb_people : nb_people1}, 
+name2 : {recipe : {ingredient21: quantity21, ingredient22 : quantity22, ingredient23 : quantity23}, nb_people : nb_people2} 
+
+    Modifies : 
+        dico (dict) : the same dictionnary but with all the quantities converted to grams 
+        
+    """
+    for name,infos in dico.items():
         
             
-                for k,v in y['recette'].items():
-                    if type(v)==str:
-                        if v != '':
-                            if '⁄' in v:
-                                if '1⁄4' in v:
+                for ingred,qty in infos['recette'].items():
+                    if type(qty)==str:
+                        if qty != '':
+                            if '⁄' in qty: #dealing with quantities such as "1/2 Litre de lait" "1/4 de verre"
+                                if '1⁄4' in qty:
                                     n=0.25
-                                if '1⁄3' in v:
+                                if '1⁄3' in qty:
                                     n=0.33
-                                if '1⁄2' in v:
+                                if '1⁄2' in qty:
                                     n=0.5
-                                for a,b in dicopoids.items():
-                                    if a in k:
-                                        y['recette'].update({k:str(b*n)+"g"})
-                                for a,b in dicoquantif.items():
-                                    if l in ['.'+a,a,a+'s','.'+a+'s','⁄'+a,'⁄'+a+'s'] :
-                                        y['recette'].update({k:str(b*n)+"g"})       
+                                for ingred_ref,qty_ref in dicopoids.items():
+                                    if ingred_ref in ingred:
+                                        infos['recette'].update({ingred:str(qty_ref*n)+"g"})
+                                for ingred_ref,qty_ref in dicoquantif.items():
+                                    if l in ['.'+ingred_ref,ingred_ref,ingred_ref+'s','.'+ingred_ref+'s','⁄'+ingred_ref,'⁄'+ingred_ref+'s'] :
+                                        infos['recette'].update({ingred:str(qty_ref*n)+"g"})       
                             
                 
                             else:
-                                n=float(("".join(re.findall('\d',str(v)))))
+                                n=float(("".join(re.findall('\d',str(qty)))))
                 
-                                l=str(''.join(z for z in v if not z.isdigit()))
+                                l=str(''.join(z for z in qty if not z.isdigit()))
                 
                                 if l not in ['g','.g']:    
-                                    for a,b in dicopoids.items():
-                                        if a in k:
-                                            y['recette'].update({k:str(b*n)+"g"})
-                                    for a,b in dicoquantif.items():
-                                        if l in ['.'+a,a,a+'s','.'+a+'s','⁄'+a,'⁄'+a+'s'] :
-                                            y['recette'].update({k:str(b*n)+"g"})       
+                                    for ingred_ref,qty_ref in dicopoids.items():
+                                        if ingred_ref in ingred:
+                                            infos['recette'].update({ingred:str(qty_ref*n)+"g"})
+                                    for ingred_ref,qty_ref in dicoquantif.items():
+                                        if l in ['.'+ingred_ref,ingred_ref,ingred_ref+'s','.'+ingred_ref+'s','⁄'+ingred_ref,'⁄'+ingred_ref+'s'] :
+                                            infos['recette'].update({ingred:str(qty_ref*n)+"g"})       
                                         
-                        elif v=="": #on définit une valeur standardisé pour les éléments manquants. Ces élements sont souvent utilisés en des quantités limitées.
-                            y['recette'].update({k:str(2*int(y['nombre de personnes']))+"g"})
+                        elif qty=="": #we define a standard value for the missing elements. These elements are often used in limited quantities.
+                            infos['recette'].update({ingred:str(2*int(infos['nombre de personnes']))+"g"})
                 
 def what_s_missing(dico):
-    for x,y in dico.items():
-                for k,v in y['recette'].items():
-                    l=str(''.join(z for z in v if not z.isdigit()))
-                    if l not in ['.g','g']:
-                        print(k,v)
+    """ a useful function to know what kind of quantity we forgot to put in dicopoids or dicoquantif
+    Args :
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+     
+    Prints : 
+        The ingredients and the quantities that haven't been converted to grams
+    """ 
+    for name,infos in dico.items():
+                for ingred,qty in infos['recette'].items():
+                    quantity = str(''.join(z for z in qty if not z.isdigit()))
+                    if quantity not in ['.g','g']:
+                        print(ingred,qty)
            
         
-def filler(dico):
-    for x,y in dico.items():
-                element=[]
-                for k,v in y['recette'].items():
-                    v=str(v)
-                    l=str(''.join(z for z in v if not z.isdigit()))
-                    if l not in ['.g','g']:
-                        element=element+[k]
+def delete_exeception(dico):
+    """a function that deletes the ingredients for which the quantity is too complicated.
+    Args :
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+    
+    Modifies : 
+        the same dictionnary but without those complicated ingredients. 
+    """
+    for name,infos in dico.items():
+                exceptions = []
+                for ingred,qty in infos['recette'].items():
+                    qty=str(qty)
+                    quantity = str(''.join(z for z in qty if not z.isdigit()))
+                    if quantity not in ['.g','g']:
+                        exceptions = exceptions+[ingred]
                         
-                for a in element:
-                    del y['recette'][a]
+                for exception in exceptions:
+                    del infos['recette'][exception]
 
 def usable(dico):
-    for x,y in dico.items():
-        for k,v in y['recette'].items():
-                n=float(str(v).replace('g',''))
-                y['recette'].update({k:float(n)})
+    """
+    Args :
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+    
+    Modifies : 
+        dico (dict) : the same dictionnary but with all the quantities as floats.
+    """
+    for name,infos in dico.items():
+        for ingred,qty in infos['recette'].items():
+                n=float(str(qty).replace('g',''))
+                infos['recette'].update({ingred:float(n)})
                 
 def per_person(dico):
-    for x,y in dico.items():
-        for k,v in y['recette'].items():
+    """
+    Args :
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+    
+    Modifies : 
+        dico (dict) : the same dictionnary but with all the quantities as floats.
+    """
+    for name,infos in dico.items():
+        for ingred,qty in infos['recette'].items():
                 
-                y['recette'].update({k:v/y['nombre de personnes']})
+                infos['recette'].update({ingred:qty/infos['nombre de personnes']})
     
 
                 
 def conversion(dico):
+    """
+    Args :
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+        
+    Modifies : 
+        dico (dict) : the same dictionnary with all the previous modifications 
+    """
     convert(dico)
-    filler(dico)
+    delete_exeception(dico)
     usable(dico)
     per_person(dico)
     
