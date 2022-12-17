@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
 #from IPython.display import Image
+import time
 from scrapping.scrapping_marmiton import *
 
 #setting the driver 
