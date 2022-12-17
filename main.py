@@ -1,5 +1,7 @@
 from scrapping.scrapping_ciqual import *
 import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 
 def looking_for(search : str, N : int) : 
@@ -51,4 +53,35 @@ def compare_recipes(df_recipes, nutritional_quality : str) :
     fig.update_layout(showlegend=False)
     return fig
 
-
+def nutriStandard(recipe):
+    
+    totalProt = recipe['Protéines (g)'].sum()
+    totalLip = recipe['Lipides (g)'].sum()
+    totalGluc = recipe['Glucides (g)'].sum()
+    totalKcal = recipe['Energie, Règlement UE N° 1169/2011 (kcal)'].sum()
+    
+    standardProt = 0.15 * totalKcal / 4
+    standardLip = 0.35 * totalKcal / 9
+    standardGluc = 0.50 * totalKcal / 4
+    
+    #Let's remove columns that we do not use for this graph
+    recipe = recipe.drop(recipe.columns[[2,3,4,5,9,10]], axis=1)
+    recipe = recipe.melt(id_vars = ['Nom recette', 'Ingrédient'], value_name='Valeur')
+    
+    fig = make_subplots()
+    fig.update_layout(xaxis2= {'anchor' : 'y', 'overlaying' : 'x', 'side' : 'top'})
+    
+    fig.add_trace(
+        go.Bar(x=recipe['Nutriment'], y=recipe['Valeur'],
+        name='Apport nutritionnel par nutriment'))
+    
+    fig.add_trace(go.Scatter(x=[0,0.8], y=[standardGluc, standardGluc], name='Objectif en glucides', line_color='#ff0040'))
+    fig.add_trace(go.Scatter(x=[1.1,1.9], y=[standardLip, standardLip], name='Objectif en lipides', line_color='#00ff00'))
+    fig.add_trace(go.Scatter(x=[2.2,3], y=[standardProt, standardProt], name='Objectif en protéines', line_color='#ffff00'))
+    fig.data[1].update(xaxis='x2')
+    fig.data[2].update(xaxis='x2')
+    fig.data[3].update(xaxis='x2')
+    
+    fig.update_layout(height=800, title_text='Apports nutritionnels par portion de ' + recipe['Nom recette'][0])
+    
+    return fig
