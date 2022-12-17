@@ -17,6 +17,7 @@ bouquets 20
 gousse 10
 gousses 10
 verre 200
+tasse 100
 noix 15
 branche 5
 boîte 250
