@@ -112,6 +112,8 @@ def find_all_recipes(search : str, N : int) :
         full_df (pandas DataFrame) : a table with the name of the recipe, the recipe and the number of people for the N marmiton's proposed recipes for the user's search
     """
     
+    print("Etape 1 : récupération des recettes que vous propose Marmiton pour : ", search)
+    
     list_dishes_url = find_all_dishes(search, N)
     all_recipes = {}
     for dish in tqdm(list_dishes_url) : 
@@ -136,6 +138,8 @@ def find_all_recipes(search : str, N : int) :
     full_df = full_df.reindex(columns=['Nom recette', 'Ingrédient', 'Quantités'])
     full_df = full_df.rename(columns = {'Ingrédients' : 'Ingrédient', 'Quantités' : 'Quantité'})
     full_df['Ingrédient'] = full_df['Ingrédient'].apply(lambda x: CleanString(x))
+    
+    print("Les recettes proposées par Marmiton ont été récupérées !\n") 
     
     return full_df
         
