@@ -1,13 +1,20 @@
 from scrapping.scrapping_ciqual import *
 import plotly.express as px
+import time
 
 
 def looking_for(search : str, N : int) : 
+    
+    st = time.time()
+    
     recipes = find_all_recipes(search, N)
     #recipes.to_csv(r'recipes.csv', index = False)
     nutritions = nutrition(recipes)
     #nutritions.to_csv(r'nutritions.csv', index = False)
     result = merge_and_clean(recipes, nutritions)
+    
+    et = time.time()
+    print("Temps d'execution :", et - st)
     
     return result
 
