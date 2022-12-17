@@ -1,6 +1,5 @@
 from scrapping.scrapping_ciqual import *
 import plotly.express as px
-import time
 
 
 def looking_for(search : str, N : int) : 
