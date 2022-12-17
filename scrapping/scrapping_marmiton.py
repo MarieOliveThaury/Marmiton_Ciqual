@@ -141,7 +141,7 @@ def find_all_recipes(search : str, N : int) :
     full_df = pd.concat(df_recipes, axis=0, ignore_index=True)
     full_df = full_df.reindex(columns=['Nom recette', 'Ingrédient', 'Quantités'])
     full_df = full_df.rename(columns = {'Ingrédients' : 'Ingrédient', 'Quantités' : 'Quantité'})
-    full_df['Ingrédient'] = full_df['Ingrédient'].apply(lambda x: CleanString(x))
+    full_df['Ingrédient'] = full_df['Ingrédient'].apply(lambda x: no_accent_and_sg(x))
     
     print("Les recettes proposées par Marmiton ont été récupérées !\n") 
     
