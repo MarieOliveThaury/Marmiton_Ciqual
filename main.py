@@ -85,3 +85,22 @@ def nutriStandard(recipe):
     fig.update_layout(height=800, title_text='Apports nutritionnels par portion de ' + recipe['Nom recette'][0])
     
     return fig
+
+def comparison(recette : str, n : int):
+    base_non_vege=looking_for(recette,n)
+    recette_vege=recette+' vege'
+    base_vege=looking_for(recette_vege,n)
+    moyenne_non_vege=base_non_vege.groupby('Nom recette').sum().mean()
+    moyenne_vege=base_vege.groupby('Nom recette').sum().mean()
+    moyenne_non_vege=moyenne_non_vege.to_frame()
+    moyenne_vege=moyenne_vege.to_frame()
+    moyenne_vege=moyenne_vege.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
+    moyenne_non_vege=moyenne_non_vege.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
+    moyenne_non_vege['type']='non végétarien'
+    moyenne_vege['type']='végétarien'
+    moyenne_non_vege=moyenne_non_vege.rename(columns={0:'Quantités'})
+    moyenne_vege=moyenne_vege.rename(columns={0:'Quantités'})
+    moyenne_finale=pd.concat([moyenne_non_vege,moyenne_vege])
+    fig = px.bar(moyenne_finale, x=moyenne_finale.index,y=moyenne_finale['Quantités'],color='type',barmode='group')
+    
+    return fig
