@@ -52,7 +52,7 @@ Dans toute cette partie, les données additionnelles que nous utilisons comme cr
 -	L’apport calorique en glucides est considéré comme satisfaisant s’il représente entre 45 et 55% de l’apport calorique total.
 A partir de ces seuils, nous avons défini un repas équilibré comme ayant un apport satisfaisant en chacun des trois macronutriments.
 
-Afin de convertir l'apport brut en nutriments (en grammes), dont nous disposons, en pourcentage de l’apport calorique total, une conversion des grammes en calories était nécessaire, selon les rapports suivants :
+Afin de convertir l'apport brut en nutriments (en grammes), dont nous disposons, en pourcentage de l’apport calorique total, une conversion des grammes en calories est nécessaire, selon les rapports suivants :
 -	Protéines : 1 g = 4 kcal
 -	Glucides : 1 g = 4 kcal
 -	Lipides : 1 g = 9 kcal
