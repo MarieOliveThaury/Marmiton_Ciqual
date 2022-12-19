@@ -17,9 +17,7 @@ Pour cela nous nous appuierons sur la [Table de composition nutritionnelle des a
 pourquoi on a utilisé BeautifulSoup plutôt que Selenium : permet d'éviter les cookies + plus simple à coder 
 
 ### Nettoyage des données et conversions 
-
-ici c'est Nathan : expliquer comment tu fais tes conversions, à quoi servent tes dictionnaires, tes fonctions etc...
-
+Ensuite, nous avons créé une fonction de conversion qui a pour but de gérer les quantités qui n’étaient pas données en grammes. Par exemple, les fruits et les légumes étaient souvent indiquées en nombre ( par exemple, 3 poires ), tandis que certains liquides étaient données en litres ou en unité de mesure de cuisine ( par exemple, 2 cuillères à soupe). La fonction de conversion détecte les quantités non libellées en grammes, et parcours un dictionnaire pour le nom du produit et un dictionnaire sur les caractères non digitaux de la quantité renseignée sur marmiton (pour séparer « 3 » de « cuillères à soupe » dans «  3 cuillères à soupe ». On multiplie ensuite les caractères digitaux du quantificateur par la valeur correspondante dans les dictionnaires Tools associés. Ainsi, dans cet exemple, on multiplie 3*15. Notons que les dictionnaires ont été enrichi à l’aide d’une fonction qui détecte les éléments manquants. Enfin, on supprime les éléments manquants et on convertit le tout en int de manière à pouvoir être utilisable.
 
 ## II) Evaluation de la qualité nutritionnelle des recettes 
 
@@ -58,5 +56,6 @@ Afin de convertir l'apport brut en nutriments (en grammes), dont nous disposons,
 -	Glucides : 1 g = 4 kcal
 -	Lipides : 1 g = 9 kcal
 
+Enfin, le troisième et dernier graphique a pour but de comparer les apports en nutriments de recettes différentes. La fonction associée fait d'abord les moyennes des apports en nutriments des deux recettes avant de représenter ces apports dans un grouped barplots. Ici, l'objectif est d'aider l'utilisateur à chosir entre deu recettes. Imaginons un utilisateur hésitant entre deux types de gateaux: il connaîtra parfaitement et immédiatement les apports nutritionels moyens des recettes des deux types de gâteaux. La comparaison est ici visuellement très simple à faire, ce qui justifie l'existence d'un tel graphique. 
 
 ## III) Modélisation ?  
