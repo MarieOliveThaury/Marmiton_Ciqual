@@ -35,7 +35,7 @@ Nous avons opté pour la deuxième méthode, car celle-ci présentait plusieurs 
 
 En pratique, nous avons rencontré plusieurs problèmes avec Selenium, que nous avons heureusement pu résoudre :
 -	La base Ciqual possède deux versions, l’une anglaise et l’autre française. Nos recherches étant formulées avec des noms français d’ingrédients, nous avons dû programmer Selenium pour passer sur la version française du site au préalable. Comme le bouton de changement de langue n’apparaît pas toujours explicitement sur la page (en particulier, il disparaît lorsque la fenêtre du navigateur rétrécit), nous avons eu recours à la fonction execute_script du driver (voir fonction *nutrition* dans *scrapping_ciqual.py*) plutôt qu’à un simple click.
--	Les balises composant le code source du tableau de données abrégées de Ciqual possèdent toutes une forme similaire, sans qu’un attribut unique tel qu’un identifiant permette de les différencier. Pour ne sélectionner que les données souhaitées, nous avons dû jouer sur la structure de la page et sur la forme du xpath de chaque élément souhaité (voir fonction citée plus haut).
+-	Les balises composant le code source du tableau de données abrégées de Ciqual possèdent toutes une forme similaire, sans qu’un attribut unique tel qu’un identifiant permette de les différencier. Pour ne sélectionner que les données souhaitées, nous avons dû jouer sur la structure de la page et sur la forme du *xpath* de chaque élément souhaité (voir fonction citée plus haut).
 -	Le temps de chargement de la page étant parfois plus long que le temps d’exécution du programme, nous avons parfois dû implanter des pauses dans l’exécution du programme (*time.sleep*) pour être certains d’obtenir les bonnes données.
 
 
