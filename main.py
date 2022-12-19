@@ -33,7 +33,7 @@ def merge_and_clean(recipe, nutrition) :
         result[i] = result[i].apply(lambda x : string_to_float(x))
         result[i] = result[i]*result['Quantité']/100
         if i == 'Protéines, N x 6.25 (g/100 g)' : 
-            result[i] = result[i]*6.25
+            result[i] = result[i]
     
     result.rename(columns = {'AG saturés (g/100 g)' : 'AG saturés (g)', 
                 'Energie, Règlement UE N° 1169/2011 (kJ/100 g)' : 'Energie, Règlement UE N° 1169/2011 (kJ)', 
