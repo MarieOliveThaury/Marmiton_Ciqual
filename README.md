@@ -33,6 +33,12 @@ Pour récupérer les données souhaitées, deux possibilités s’offraient à n
 
 Nous avons opté pour la deuxième méthode, car celle-ci présentait plusieurs avantages : tout d’abord, nous bénéficiions du moteur de recherche de Ciqual, et n’avions qu’à nous assurer de formuler correctement notre recherche pour obtenir un résultat adéquat. Ensuite, le site de Ciqual offrait la possibilité de consulter directement la composition abrégée de l’ingrédient cherché, soit les nutriments principaux retenus pour notre étude. Enfin, cette méthode présentait pour nous un intérêt pédagogique : le site de Ciqual étant codé de façon dynamique, le scrapping nécessitait ici l’utilisation de Selenium.
 
+En pratique, nous avons rencontré plusieurs problèmes avec Selenium, que nous avons heureusement pu résoudre :
+-	La base Ciqual possède deux versions, l’une anglaise et l’autre française. Nos recherches étant formulées avec des noms français d’ingrédients, nous avons dû programmer Selenium pour passer sur la version française du site au préalable. Comme le bouton de changement de langue n’apparaît pas toujours explicitement sur la page (en particulier, il disparaît lorsque la fenêtre du navigateur rétrécit), nous avons eu recours à la fonction execute_script du driver (voir fonction nutrition dans scrapping_ciqual.py) plutôt qu’à un simple click.
+-	Les balises composant le code source du tableau de données abrégées de Ciqual possèdent toutes une forme similaire (<td>), sans qu’un attribut unique tel qu’un identifiant permette de les différencier. Pour ne sélectionner que les données souhaitée, nous avons dû jouer sur la structure de la page et sur la forme du xpath de chaque élément souhaité (voir fonction citée plus haut).
+-	Le temps de chargement de la page étant parfois plus long que le temps d’exécution du programme, nous avons parfois dû programmer des pauses dans l’exécution du programme (time.sleep)  pour être certains d’obtenir les bonnes données.
+
+
 
 ### Graphiques 
 
