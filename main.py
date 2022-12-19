@@ -26,7 +26,7 @@ def merge_and_clean(recipe, nutrition) :
     
     result = recipe.merge(nutrition, on='Ingrédient', how='left')
     result = result.drop_duplicates()
-    result = result.pivot(index=['Nom recette', 'Ingrédient', 'Quantité'], 
+    result = result.pivot(index=['Nom recette', 'Nombre de commentaires', 'Ingrédient', 'Quantité'], 
                           columns='Nutriment', values='Teneur moyenne')
     columns = result.columns
 

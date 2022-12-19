@@ -104,7 +104,11 @@ def find_recipe(dish_url : str):
         nb_people = nb_people.get_text(separator="")
     nb_people = float(nb_people)
     
-    return recipe_title, recipe, nb_people
+    #5 : for the ratings
+    nb_comments = soup.find('span', {'class' : 'SHRD__sc-10plygc-0 cAYPwA'}).get_text(separator="")
+    nb_comments = nb_comments[:-13]
+    
+    return recipe_title, recipe, nb_people, nb_comments
             
 def find_all_recipes(search : str, N : int) : 
     """
@@ -121,8 +125,8 @@ def find_all_recipes(search : str, N : int) :
     list_dishes_url = find_all_dishes(search, N)
     all_recipes = {}
     for dish in tqdm(list_dishes_url) : 
-        all_recipes[find_recipe(dish)[0]] = {'lien' : dish,'recette' : find_recipe(dish)[1], 'nombre de personnes' : find_recipe(dish)[2]}
-        #we should add other features like the mark, the nb of people, the number of opinions...
+        all_recipes[find_recipe(dish)[0]] = {'lien' : dish, 'recette' : find_recipe(dish)[1], 'nombre de personnes' : find_recipe(dish)[2], 'nombre de commentaires' : find_recipe(dish)[3]}
+        #we should add other features like the mark, the nb of people, the number of comments...
         
     recipes_names = list(all_recipes.keys())
     conversion(all_recipes)
@@ -134,12 +138,14 @@ def find_all_recipes(search : str, N : int) :
     
         dict_iq = {'Ingrédient' : ingredients, 'Quantités' : qtes}
         df = pd.DataFrame(dict_iq)
+        
         df['Nom recette'] = recipes_names[i]
+        df['Nombre de commentaires'] = dict_recipe['nombre de commentaires']
     
         df_recipes.append(df)
     
     full_df = pd.concat(df_recipes, axis=0, ignore_index=True)
-    full_df = full_df.reindex(columns=['Nom recette', 'Ingrédient', 'Quantités'])
+    full_df = full_df.reindex(columns=['Nom recette', 'Nombre de commentaires', 'Ingrédient', 'Quantités'])
     full_df = full_df.rename(columns = {'Ingrédients' : 'Ingrédient', 'Quantités' : 'Quantité'})
     full_df['Ingrédient'] = full_df['Ingrédient'].apply(lambda x: no_accent_and_sg(x))
     
