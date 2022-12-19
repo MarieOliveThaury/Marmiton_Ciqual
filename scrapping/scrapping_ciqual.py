@@ -84,4 +84,4 @@ def nutrition(df_recipe):
     return df_nutr_all
 
 
-print("scrapping_ciqual importé !") 
+print("scrapping_ciqual importé !\n") 
