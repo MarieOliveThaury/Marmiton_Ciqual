@@ -15,9 +15,11 @@ def looking_for(search : str, N : int) :
     result = merge_and_clean(recipes, nutritions)
     
     et = time.time()
-    print("Temps d'execution :", et - st)
+    print("Temps d'execution :", et - st, '\n')
     
     return result
+
+
 
 
 def merge_and_clean(recipe, nutrition) : 
@@ -32,8 +34,6 @@ def merge_and_clean(recipe, nutrition) :
     for i in columns : 
         result[i] = result[i].apply(lambda x : string_to_float(x))
         result[i] = result[i]*result['Quantité']/100
-        if i == 'Protéines, N x 6.25 (g/100 g)' : 
-            result[i] = result[i]
     
     result.rename(columns = {'AG saturés (g/100 g)' : 'AG saturés (g)', 
                 'Energie, Règlement UE N° 1169/2011 (kJ/100 g)' : 'Energie, Règlement UE N° 1169/2011 (kJ)', 
@@ -46,6 +46,11 @@ def merge_and_clean(recipe, nutrition) :
     
     return result
 
+
+
+
+
+
 def compare_recipes(df_recipes, nutritional_quality : str) :
     
     fig = px.bar(df_recipes, x="Nom recette", y=nutritional_quality, color="Ingrédient", 
@@ -54,7 +59,8 @@ def compare_recipes(df_recipes, nutritional_quality : str) :
     return fig
 
 
-#This function generates a graph on which we can compare the quantity of nutrients (Lipids, Proteins and Glucids) in a given recipe
+
+
 
 def nutriStandard(recipe):
     """This function generates a graph on which we can compare the quantity of nutrients (Lipids, Proteins and Glucids) in a given recipe
@@ -70,7 +76,7 @@ def nutriStandard(recipe):
     
     Returns :
         fig (plotly figure) : a graph that shows the quantity of nutrients for the given recipe, and the recommended value for each nutrient"""
-    
+    #recipe = looking_for(search, 1)
     
     totalProt = recipe['Protéines (g)'].sum()
     totalLip = recipe['Lipides (g)'].sum()
@@ -88,37 +94,54 @@ def nutriStandard(recipe):
     #To be satisfying, the glucid intake must be between 40 and 55% of total calorie intake
     standardGlucLower = 0.45 * totalKcal / 4
     standardGlucUpper = 0.55 * totalKcal / 4
+
+    name_recipe = recipe['Nom recette'][0]
     
     #Let's remove columns that we do not use for this graph
-    recipe = recipe.drop(recipe.columns[[2,3,4,5,9,10]], axis=1)
-    recipe = recipe.melt(id_vars = ['Nom recette', 'Ingrédient'], value_name='Valeur')
+    recipe = recipe[['Ingrédient', 'Glucides (g)', 'Lipides (g)', 'Protéines (g)']]
+    recipe = recipe.melt(id_vars = ['Ingrédient'], value_name='Valeur')
+    recipe = recipe.pivot(index=['Nutriment'], columns='Ingrédient', values='Valeur')
+    recipe = recipe.reset_index()
     
+    recipe['Nutriment'] = recipe['Nutriment'].astype('category')
+    recipe['Nutriment_cd'] = recipe['Nutriment'].astype('category').cat.codes
+    
+    ingredients = recipe.columns[1:-1]
+    clrs = {}
+    rgb = np.linspace(50, 250, len(ingredients))
+    i = 0
+    for ingredient in ingredients : 
+        clrs[ingredient] = 'rgb(0,' + str(rgb[i]) + ',' + str(rgb[i]) + ')'
+        i += 1
+
     fig = make_subplots()
-    fig.update_layout(xaxis2= {'anchor' : 'y', 'overlaying' : 'x', 'side' : 'top'})
-    
-    fig.add_trace(
-        go.Bar(x=recipe['Nutriment'], y=recipe['Valeur'],
-        name='Apport nutritionnel par nutriment'))
-    
-    fig.add_trace(go.Scatter(x=[0,0.8], y=[standardGlucLower, standardGlucLower], name='Apport recommandé en glucides (min)', line_color='#ff0040'))
-    fig.add_trace(go.Scatter(x=[0,0.8], y=[standardGlucUpper, standardGlucUpper], name='Apport recommandé en glucides (max)', line_color='#ff0040'))
-    
-    fig.add_trace(go.Scatter(x=[1.1,1.9], y=[standardLipLower, standardLipLower], name='Apport recommandé en lipides (min)', line_color='#00ff00'))
-    fig.add_trace(go.Scatter(x=[1.1,1.9], y=[standardLipUpper, standardLipUpper], name='Apport recommandé en lipides (max)', line_color='#00ff00'))
-    
-    fig.add_trace(go.Scatter(x=[2.2,3], y=[standardProtLower, standardProtLower], name='Apport recommandé en protéines (min)', line_color='#ffff00'))
-    fig.add_trace(go.Scatter(x=[2.2,3], y=[standardProtUpper, standardProtUpper], name='Apport recommandé en protéines (max)', line_color='#ffff00'))
-    
-    fig.data[1].update(xaxis='x2')
-    fig.data[2].update(xaxis='x2')
-    fig.data[3].update(xaxis='x2')
-    fig.data[4].update(xaxis='x2')
-    fig.data[5].update(xaxis='x2')
-    fig.data[6].update(xaxis='x2')
-    
-    fig.update_layout(height=800, title_text='Apports nutritionnels par portion de ' + recipe['Nom recette'][0])
-    
+    for ingredient in ingredients :
+        ingredient = str(ingredient)
+        fig.add_trace(go.Bar(x=recipe['Nutriment_cd'], y=recipe[ingredient], name=ingredient, 
+                             marker= {'color' : clrs[ingredient]}, xaxis = 'x2'), secondary_y=False)
+        
+        
+    #Thresholds for carbohydrates
+    fig.add_trace(go.Scatter(x=[-0.5,0.5], y=[standardGlucLower, standardGlucLower], name='Apport recommandé en glucides (min)', line_color='#ff0040'))
+    fig.add_trace(go.Scatter(x=[-0.5,0.5], y=[standardGlucUpper, standardGlucUpper], name='Apport recommandé en glucides (max)', line_color='#ff0040'))
+
+    #Thresholds for lipids
+    fig.add_trace(go.Scatter(x=[0.5,1.5], y=[standardLipLower, standardLipLower], name='Apport recommandé en lipides (min)', line_color='#00ff00'))
+    fig.add_trace(go.Scatter(x=[0.5,1.5], y=[standardLipUpper, standardLipUpper], name='Apport recommandé en lipides (max)', line_color='#00ff00'))
+
+    #Thresholds for proteins
+    fig.add_trace(go.Scatter(x=[1.5,2.5], y=[standardProtLower, standardProtLower], name='Apport recommandé en protéines (min)', line_color='#0000f0'))
+    fig.add_trace(go.Scatter(x=[1.5,2.5], y=[standardProtUpper, standardProtUpper], name='Apport recommandé en protéines (max)', line_color='#0000f0'))
+
+    fig.update_layout(xaxis2= {'anchor' : 'y', 'overlaying' : 'x', 'side' : 'bottom'})
+    fig.update_layout(width=800, height=500, title_text='Apports nutritionnels par portion de ' + name_recipe, barmode='stack')
+    fig.update_xaxes(tickvals=[0,1,2], ticktext=recipe['Nutriment'].tolist())
     return fig
+
+
+
+
+
 
 def nutriTest(df_recipes):
     """This function checks if macronutrients intake for a given recipe can be considered as satisfying.
@@ -171,21 +194,26 @@ def nutriTest(df_recipes):
     
     return full_df
 
-def comparison(recette : str, n : int):
-    base_non_vege=looking_for(recette,n)
-    recette_vege=recette+' vege'
-    base_vege=looking_for(recette_vege,n)
-    moyenne_non_vege=base_non_vege.groupby('Nom recette').sum().mean()
-    moyenne_vege=base_vege.groupby('Nom recette').sum().mean()
-    moyenne_non_vege=moyenne_non_vege.to_frame()
-    moyenne_vege=moyenne_vege.to_frame()
-    moyenne_vege=moyenne_vege.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
-    moyenne_non_vege=moyenne_non_vege.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
-    moyenne_non_vege['type']='non végétarien'
-    moyenne_vege['type']='végétarien'
-    moyenne_non_vege=moyenne_non_vege.rename(columns={0:'Quantités'})
-    moyenne_vege=moyenne_vege.rename(columns={0:'Quantités'})
-    moyenne_finale=pd.concat([moyenne_non_vege,moyenne_vege])
-    fig = px.bar(moyenne_finale, x=moyenne_finale.index,y=moyenne_finale['Quantités'],color='type',barmode='group')
+
+
+
+def compare_food(df_recipes_1, type1 : str, df_recipes_2, type2 : str):
+     
+    mean1 = df_recipes_1.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
+    mean1 = mean1.to_frame()
+    mean1 = mean1.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
+    mean1['Type'] = type1
+    mean1 = mean1.rename(columns={0:'Quantité moyenne en nutriment'})
+           
+    mean2 = df_recipes_2.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
+    mean2 = mean2.to_frame()
+    mean2 = mean2.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
+    mean2['Type'] = type2
+    mean2 = mean2.rename(columns={0:'Quantité moyenne en nutriment'})
+    
+    final_mean = pd.concat([mean1,mean2])
+    
+    fig = px.bar(final_mean, x = final_mean.index, y = final_mean['Quantité moyenne en nutriment'], 
+                 color='Type', barmode='group')
     
     return fig
