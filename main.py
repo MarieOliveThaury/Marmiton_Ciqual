@@ -120,39 +120,56 @@ def nutriStandard(recipe):
     
     return fig
 
-def nutriTest(recipe):
+def nutriTest(df_recipes):
     """This function checks if macronutrients intake for a given recipe can be considered as satisfying.
     
     Args :
-        recipe (DataFrame
+        recipe (DataFrame) : 
         
     Returns :
         nutritest : a dictionary"""
-    totalProt = recipe['Protéines (g)'].sum()
-    totalLip = recipe['Lipides (g)'].sum()
-    totalGluc = recipe['Glucides (g)'].sum()
-    totalKcal = recipe['Energie, Règlement UE N° 1169/2011 (kcal)'].sum()
     
-    #To be satisfying, the protein intake must be between 10 and 20% of total calorie intake
-    standardProtLower = 0.10 * totalKcal / 4
-    standardProtUpper = 0.20 * totalKcal / 4
+    list_recipes = list(df_recipes['Nom recette'].unique())
     
-    #To be satisfying, the lipid intake must be between 35 and 40% of total calorie intake
-    standardLipLower = 0.35 * totalKcal / 9
-    standardLipUpper = 0.40 * totalKcal / 9
+    df_nutritest_list = []
     
-    #To be satisfying, the glucid intake must be between 40 and 55% of total calorie intake
-    standardGlucLower = 0.45 * totalKcal / 4
-    standardGlucUpper = 0.55 * totalKcal / 4
+    for i in range(len(list_recipes)):
+        
+        recipe = df_recipes[df_recipes['Nom recette'] == list_recipes[i]]
     
-    nutritest = {'Satisfaisant en protéines' : (totalProt >= standardProtLower and totalProt <= standardProtUpper),
+        totalProt = recipe['Protéines (g)'].sum()
+        totalLip = recipe['Lipides (g)'].sum()
+        totalGluc = recipe['Glucides (g)'].sum()
+        totalKcal = recipe['Energie, Règlement UE N° 1169/2011 (kcal)'].sum()
+    
+        #To be satisfying, the protein intake must be between 10 and 20% of total calorie intake
+        standardProtLower = 0.10 * totalKcal / 4
+        standardProtUpper = 0.20 * totalKcal / 4
+    
+        #To be satisfying, the lipid intake must be between 35 and 40% of total calorie intake
+        standardLipLower = 0.35 * totalKcal / 9
+        standardLipUpper = 0.40 * totalKcal / 9
+    
+        #To be satisfying, the glucid intake must be between 40 and 55% of total calorie intake
+        standardGlucLower = 0.45 * totalKcal / 4
+        standardGlucUpper = 0.55 * totalKcal / 4
+    
+        nutritest = {'Satisfaisant en protéines' : (totalProt >= standardProtLower and totalProt <= standardProtUpper),
                  'Satisfaisant en lipides' : (totalLip >= standardLipLower and totalLip <= standardLipUpper),
                  'Satisfaisant en glucides' : (totalGluc >= standardGlucLower and totalGluc <= standardGlucUpper)}
     
-    df_nutritest = pd.DataFrame(list(nutritest.items()))
-    df_nutritest['Nom recette'] = recipe['Nom recette'][0]
+        df_nutritest = pd.DataFrame(nutritest, index = [0])
+        df_nutritest['Nom recette'] = list_recipes[i]
+        
+        df_nutritest_list.append(df_nutritest)
     
-    return df_nutritest
+    full_df = pd.concat(df_nutritest_list, axis=0, ignore_index=True)
+    col = ['Nom recette', 'Satisfaisant en protéines', 'Satisfaisant en lipides', 'Satisfaisant en glucides']
+    full_df = full_df.reindex(columns=col)
+    
+    full_df['Repas équilibré'] = (full_df['Satisfaisant en protéines'] & full_df['Satisfaisant en glucides'] & full_df['Satisfaisant en lipides'])
+    
+    return full_df
 
 def comparison(recette : str, n : int):
     base_non_vege=looking_for(recette,n)
