@@ -25,9 +25,14 @@ ici c'est Nathan : expliquer comment tu fais tes conversions, à quoi servent te
 
 ### Scrapping de Ciqual 
 
-Pourquoi on a décidé de scrapper Ciqual au lieu de simplement récupérer la table excel ...
-Pourquoi on a utilisé Sélénium ... 
-Dire qu'une des difficultés a été de retrouver la page en français 
+Une fois les données de Marmiton obtenues, notre objectif était de croiser ces données avec les données nutritionnelles de la base Ciqual de l’ANSES. Pour chaque ingrédient de chaque recette scrappée sur Marmiton, nous souhaitions obtenir les apports nutritionnels globaux (apport calorique et énergétique), ainsi que la composition nutritionnelle pour quelques nutriments principaux (lipides, glucides, protéines…).
+
+Pour récupérer les données souhaitées, deux possibilités s’offraient à nous : 
+1)	Ou bien nous téléchargions le fichier Excel de la base Ciqual, libre d’accès, et nous cherchions nous-mêmes les entrées qui correspondaient le mieux à nos ingrédients, avant de sélectionner manuellement les variables souhaitées.
+2)	Ou bien nous scrappions directement le site internet de Ciqual, pour ne récupérer que les données souhaitées.
+
+Nous avons opté pour la deuxième méthode, car celle-ci présentait plusieurs avantages : tout d’abord, nous bénéficiions du moteur de recherche de Ciqual, et n’avions qu’à nous assurer de formuler correctement notre recherche pour obtenir un résultat adéquat. Ensuite, le site de Ciqual offrait la possibilité de consulter directement la composition abrégée de l’ingrédient cherché, soit les nutriments principaux retenus pour notre étude. Enfin, cette méthode présentait pour nous un intérêt pédagogique : le site de Ciqual étant codé de façon dynamique, le scrapping nécessitait ici l’utilisation de Selenium.
+
 
 ### Graphiques 
 
