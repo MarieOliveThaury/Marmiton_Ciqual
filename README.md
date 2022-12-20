@@ -53,8 +53,8 @@ Les fruits et légumes étant souvent indiqués en nombre ( par exemple, 3 poire
 
 Dans le fichier `conversion_tools.py` se trouvent l'ensemble des fonctions nécessaires pour le nettoyage de ces données.
 
-Le fichier`references/Poids.txt` recense une liste d'ingrédients et leur valeur en grammes associée, par exemple « reblochon 500 » ou « Échalote 40 ». 
-Le fichier`references/Quantificateurs.txt` recense une liste d'unités et leur valeur en grammes associée, par exemple « sachet 15 » ou « c.à.s 15 ».
+Le fichier `references/Poids.txt` recense une liste d'ingrédients et leur valeur en grammes associée, par exemple « reblochon 500 » ou « Échalote 40 ». 
+Le fichier `references/Quantificateurs.txt` recense une liste d'unités et leur valeur en grammes associée, par exemple « sachet 15 » ou « c.à.s 15 ».
 
 
 La fonction `convert` gère les quantités dont l'unité n'est pas exprimée en grammes. La fonction : 
