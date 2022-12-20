@@ -10,9 +10,7 @@ def looking_for(search : str, N : int) :
     st = time.time()
     
     recipes = find_all_recipes(search, N)
-    #recipes.to_csv(r'recipes.csv', index = False)
     nutritions = nutrition(recipes)
-    #nutritions.to_csv(r'nutritions.csv', index = False)
     result = merge_and_clean(recipes, nutritions)
     
     et = time.time()
@@ -62,19 +60,18 @@ def compare_recipes(df_recipes, nutritional_quality : str) :
 
 def compare_food(df_recipes_1, type1 : str, df_recipes_2, type2 : str):
      
-    mean1 = df_recipes_1.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
-    mean1 = mean1.to_frame()
-    mean1 = mean1.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)').drop('Nombre de commentaires')
-    mean1['Type'] = type1
-    mean1 = mean1.rename(columns={0:'Quantité moyenne en nutriment'})
-           
-    mean2 = df_recipes_2.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
-    mean2 = mean2.to_frame()
-    mean2 = mean2.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)').drop('Nombre de commentaires')
-    mean2['Type'] = type2
-    mean2 = mean2.rename(columns={0:'Quantité moyenne en nutriment'})
+    dfs = [df_recipes_1, df_recipes_2]
+    types = [type1, type2]  
     
-    final_mean = pd.concat([mean1,mean2])
+    final_mean = pd.DataFrame([])
+    for i in range(2) :     
+        mean = dfs[i].groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
+        mean = mean.to_frame()
+        mean = mean.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)').drop('Nombre de commentaires')
+        mean['Type'] = types[i]
+        mean = mean.rename(columns={0:'Quantité moyenne en nutriment'})
+        final_mean = pd.concat([final_mean, mean])
+        
     final_mean = final_mean.reset_index().rename(columns = {'index' : 'Nutriment'})
     
     fig = px.bar(final_mean, x = final_mean['Nutriment'], y = final_mean['Quantité moyenne en nutriment'], 
@@ -163,8 +160,6 @@ def nutriStandard(recipe):
 
 
 
-
-
 def nutriTest(df_recipes):
     """This function checks if macronutrients intake for a given recipe can be considered as satisfying.
     
@@ -216,15 +211,32 @@ def nutriTest(df_recipes):
     
     return full_df
 
-def reg_simple(x,y):
+
+
+def prepare_reg(df1, df2) : 
+    
+    dfs = [df1, df2] 
+    
+    opinions = pd.DataFrame([])
+    final_df = pd.DataFrame([])
+    for i in range(2) :
+        df_comments = dfs[i].groupby('Nom recette').agg({'Nombre de commentaires':'first'})
+        opinions = pd.concat([opinions, df_comments])
+        sum_nutrition = dfs[i].groupby('Nom recette').sum(numeric_only = True)
+        sum_nutrition = sum_nutrition.div(sum_nutrition['Quantité'],axis=0)*100
+        sum_nutrition['Type'] = i
+        sum_nutrition = (pd.DataFrame(sum_nutrition)).drop(columns = ['Nombre de commentaires'])
+        final_df = pd.concat([final_df, sum_nutrition])
+        
+    final_df = final_df.merge(opinions, on='Nom recette', how='left')
+        
+    return final_df
+
+def reg(df1, df2, variables : list):
+    y = prepare_reg(df1, df2)['Nombre de commentaires']
+    x = prepare_reg(df1, df2)[variables]
     x = sm.add_constant(x)
     model = sm.OLS(y, x)
     
-    results = model.fit()
-    print(results.summary())
-    
-def reg_multiple(variables,y):
-    x = sm.add_constant(variables)
-    model = sm.OLS(y, x)
     results = model.fit()
     print(results.summary())
