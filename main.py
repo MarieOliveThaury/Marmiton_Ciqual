@@ -4,6 +4,7 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import statsmodels.api as sm
 
+### preparing the data ##############################
 
 def looking_for(search : str, N : int) : 
     
@@ -17,8 +18,6 @@ def looking_for(search : str, N : int) :
     print("Temps d'execution :", et - st, '\n')
     
     return result
-
-
 
 
 def merge_and_clean(recipe, nutrition) : 
@@ -48,7 +47,7 @@ def merge_and_clean(recipe, nutrition) :
 
 
 
-
+### graphs ##############################
 
 def compare_recipes(df_recipes, nutritional_quality : str) :
     
@@ -212,6 +211,7 @@ def nutriTest(df_recipes):
     return full_df
 
 
+#### regression #################
 
 def prepare_reg(df1, df2) : 
     
