@@ -74,8 +74,9 @@ def compare_food(df_recipes_1, type1 : str, df_recipes_2, type2 : str):
     mean2 = mean2.rename(columns={0:'Quantité moyenne en nutriment'})
     
     final_mean = pd.concat([mean1,mean2])
+    final_mean = final_mean.reset_index().rename(columns = {'index' : 'Nutriment'})
     
-    fig = px.bar(final_mean, x = final_mean.index, y = final_mean['Quantité moyenne en nutriment'], 
+    fig = px.bar(final_mean, x = final_mean['Nutriment'], y = final_mean['Quantité moyenne en nutriment'], 
                  color='Type', barmode='group', title = 'Comparaison nutritionnelle de ' + type1 + ' et ' + type2)
     
     return fig
