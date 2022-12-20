@@ -66,6 +66,7 @@ def find_recipe(dish_url : str):
         recipe_title (str) : name of the recipe 
         recipe (dict) : dictionary whose keys are the ingredients and values are the quantities 
         nb_people (float) : number of people 
+        nb_comments (float) : number of comments on the recipe
     """
     
     soup = BeautifulSoup(requests.get(dish_url).text,features="html.parser")
@@ -107,6 +108,7 @@ def find_recipe(dish_url : str):
     #5 : for the ratings
     nb_comments = soup.find('span', {'class' : 'SHRD__sc-10plygc-0 cAYPwA'}).get_text(separator="")
     nb_comments = nb_comments[:-13]
+    nb_comments = float(nb_comments)
     
     return recipe_title, recipe, nb_people, nb_comments
             
@@ -126,7 +128,6 @@ def find_all_recipes(search : str, N : int) :
     all_recipes = {}
     for dish in tqdm(list_dishes_url) : 
         all_recipes[find_recipe(dish)[0]] = {'lien' : dish, 'recette' : find_recipe(dish)[1], 'nombre de personnes' : find_recipe(dish)[2], 'nombre de commentaires' : find_recipe(dish)[3]}
-        #we should add other features like the mark, the nb of people, the number of comments...
         
     recipes_names = list(all_recipes.keys())
     conversion(all_recipes)
