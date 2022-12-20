@@ -163,10 +163,10 @@ def nutriTest(df_recipes):
     """This function checks if macronutrients intake for a given recipe can be considered as satisfying.
     
     Args :
-        recipe (DataFrame) : 
+        df_recipe (DataFrame) : a DataFrame which contains one or several recipes.
         
     Returns :
-        nutritest : a dictionary"""
+        nutritest : a DataFrame with 3 columns telling in the recipe is satisfying in each macronutriment (True / False), and a fourth column telling whether the recipe can be considered as balanced or not."""
     
     list_recipes = list(df_recipes['Nom recette'].unique())
     
