@@ -123,7 +123,7 @@ def find_all_recipes(search : str, N : int) :
         N (int) : how many recipe proposals the algorithm returns 
 
     Returns :
-        full_df (pandas DataFrame) : a table with the name of the recipe, the recipe and the number of people for the N marmiton's proposed recipes for the user's search
+        full_df (pandas DataFrame) : a table with the name of the recipe, the recipe, the number of people and the number of comments for the N marmiton's proposed recipes for the user's search
     """
     
     print("Etape 1 : récupération des recettes que vous propose Marmiton pour : ", search)
