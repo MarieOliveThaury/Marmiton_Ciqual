@@ -16,10 +16,10 @@ for ligne in quantif:
 def convert(dico):
     """
     Args :
-        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. 
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe, the number of people and the number of comments. 
 The form of the dictionary is as follows : 
-{name1 : {recipe : {ingredient11: quantity11, ingredient12 : quantity12}, nb_people : nb_people1}, 
-name2 : {recipe : {ingredient21: quantity21, ingredient22 : quantity22, ingredient23 : quantity23}, nb_people : nb_people2} 
+{name1 : {recipe : {ingredient11: quantity11, ingredient12 : quantity12}, nb_people : nb_people1, nb_comments : nb_comments1}, 
+name2 : {recipe : {ingredient21: quantity21, ingredient22 : quantity22, ingredient23 : quantity23}, nb_people : nb_people2, nb_comments : nb_comments2}}
 
     Modifies : 
         dico (dict) : the same dictionnary but with all the quantities converted to grams    
@@ -62,7 +62,7 @@ name2 : {recipe : {ingredient21: quantity21, ingredient22 : quantity22, ingredie
 def what_s_missing(dico):
     """ a useful function to know what kind of quantity we forgot to put in dicopoids or dicoquantif
     Args :
-        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe, the number of people and the number of comments. The form of the dictionary is as indicated above.
      
     Prints : 
         The ingredients and the quantities that haven't been converted to grams
@@ -77,7 +77,7 @@ def what_s_missing(dico):
 def delete_exeception(dico):
     """a function that deletes the ingredients for which the quantity is too complicated.
     Args :
-        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe, the number of people and the number of comments. The form of the dictionary is as indicated above.
     
     Modifies : 
         the same dictionnary but without those complicated ingredients. 
@@ -96,7 +96,7 @@ def delete_exeception(dico):
 def usable(dico):
     """
     Args :
-        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe, the number of people and the number of comments. The form of the dictionary is as indicated above.
     
     Modifies : 
         dico (dict) : the same dictionnary but with all the quantities as floats.
@@ -109,7 +109,7 @@ def usable(dico):
 def per_person(dico):
     """
     Args :
-        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe, the number of people and the number of comments. The form of the dictionary is as indicated above.
     
     Modifies : 
         dico (dict) : the same dictionnary but with all the quantities for one person only.
@@ -123,7 +123,7 @@ def per_person(dico):
 def conversion(dico):
     """
     Args :
-        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe and the number of people. The form of the dictionary is as indicated above.
+        dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe, the number of people and the number of comments. The form of the dictionary is as indicated above.
         
     Modifies : 
         dico (dict) : the same dictionnary with all the previous modifications 
