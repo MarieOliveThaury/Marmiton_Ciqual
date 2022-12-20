@@ -54,11 +54,31 @@ def merge_and_clean(recipe, nutrition) :
 def compare_recipes(df_recipes, nutritional_quality : str) :
     
     fig = px.bar(df_recipes, x="Nom recette", y=nutritional_quality, color="Ingrédient", 
-                 title=nutritional_quality, width=800, height=500)
+                 title='Comparaison pour '+ nutritional_quality, width=800, height=500)
     fig.update_layout(showlegend=False)
     return fig
 
 
+def compare_food(df_recipes_1, type1 : str, df_recipes_2, type2 : str):
+     
+    mean1 = df_recipes_1.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
+    mean1 = mean1.to_frame()
+    mean1 = mean1.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)').drop('Nombre de commentaires')
+    mean1['Type'] = type1
+    mean1 = mean1.rename(columns={0:'Quantité moyenne en nutriment'})
+           
+    mean2 = df_recipes_2.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
+    mean2 = mean2.to_frame()
+    mean2 = mean2.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)').drop('Nombre de commentaires')
+    mean2['Type'] = type2
+    mean2 = mean2.rename(columns={0:'Quantité moyenne en nutriment'})
+    
+    final_mean = pd.concat([mean1,mean2])
+    
+    fig = px.bar(final_mean, x = final_mean.index, y = final_mean['Quantité moyenne en nutriment'], 
+                 color='Type', barmode='group', title = 'Comparaison nutritionnelle de ' + type1 + ' et ' + type2)
+    
+    return fig
 
 
 
@@ -194,26 +214,3 @@ def nutriTest(df_recipes):
     
     return full_df
 
-
-
-
-def compare_food(df_recipes_1, type1 : str, df_recipes_2, type2 : str):
-     
-    mean1 = df_recipes_1.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
-    mean1 = mean1.to_frame()
-    mean1 = mean1.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
-    mean1['Type'] = type1
-    mean1 = mean1.rename(columns={0:'Quantité moyenne en nutriment'})
-           
-    mean2 = df_recipes_2.groupby('Nom recette').sum(numeric_only = True).mean(numeric_only = True)
-    mean2 = mean2.to_frame()
-    mean2 = mean2.drop('Quantité').drop('Energie, Règlement UE N° 1169/2011 (kJ)').drop('Energie, Règlement UE N° 1169/2011 (kcal)')
-    mean2['Type'] = type2
-    mean2 = mean2.rename(columns={0:'Quantité moyenne en nutriment'})
-    
-    final_mean = pd.concat([mean1,mean2])
-    
-    fig = px.bar(final_mean, x = final_mean.index, y = final_mean['Quantité moyenne en nutriment'], 
-                 color='Type', barmode='group')
-    
-    return fig
