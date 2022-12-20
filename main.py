@@ -215,3 +215,15 @@ def nutriTest(df_recipes):
     
     return full_df
 
+def reg_simple(x,y):
+    x = sm.add_constant(x)
+    model = sm.OLS(y, x)
+    
+    results = model.fit()
+    print(results.summary())
+    
+def reg_multiple(variables,y):
+    x = sm.add_constant(variables)
+    model = sm.OLS(y, x)
+    results = model.fit()
+    print(results.summary())
