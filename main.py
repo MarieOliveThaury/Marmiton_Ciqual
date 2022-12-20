@@ -2,6 +2,7 @@ from scrapping.scrapping_ciqual import *
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import statsmodels.api as sm
 
 
 def looking_for(search : str, N : int) : 
