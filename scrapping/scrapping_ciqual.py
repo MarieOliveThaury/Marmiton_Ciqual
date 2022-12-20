@@ -15,10 +15,10 @@ chrome_options.add_argument('--no-sandbox')
 def nutrition(df_recipe):
     """
     Args:
-        df_recipe (pandas DataFrame) : a DataFrame with the name of the recipe, the ingredient and the quantity of the ingredient 
+        df_recipe (pandas DataFrame) : a DataFrame with the name of the recipe, the number of comments, the ingredient and the quantity of the ingredient 
 
     Returns :
-        df_nutr_all (pandas DataFrame) : a table with the name of the recipe, the ingredient, the quantity of the ingredient, the nutritional quality and the average content for this ingredient 
+        df_nutr_all (pandas DataFrame) : a table with the name of the recipe, the number of comments, the ingredient, the quantity of the ingredient, the nutritional quality and the average content for this ingredient 
     """
     print("Etape 2 : évaluons la qualité nutritionnelle des recettes que vous propose Marmiton")
     print("Si le programme plante, veuillez relancer le Kernel, un problème lié au scrapping est peut-être survenu")
