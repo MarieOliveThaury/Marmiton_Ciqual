@@ -106,7 +106,11 @@ def find_recipe(dish_url : str):
     nb_people = float(nb_people)
     
     #5 : for the ratings
-    nb_comments = soup.find('span', {'class' : 'SHRD__sc-10plygc-0 cAYPwA'}).get_text(separator="")
+    likeComments = soup.findAll('span', {'class' : 'SHRD__sc-10plygc-0 cAYPwA'})
+    if len(likeComments) == 2:
+        nb_comments = likeComments[1].get_text(separator="")
+    else:
+        nb_comments = likeComments[0].get_text(separator="")
     nb_comments = nb_comments[:-13]
     nb_comments = float(nb_comments)
     
