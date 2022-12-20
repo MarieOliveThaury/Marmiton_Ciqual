@@ -1,4 +1,3 @@
-import chromedriver_autoinstaller
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -8,7 +7,6 @@ import time
 from scrapping.scrapping_marmiton import *
 
 #setting the driver 
-chromedriver_autoinstaller.install() 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
