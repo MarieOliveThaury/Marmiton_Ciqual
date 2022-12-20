@@ -51,9 +51,13 @@ Afin de pouvoir exploiter nos données, nous devions nous ramener à une unité 
 
 Les fruits et légumes étant souvent indiqués en nombre ( par exemple, 3 poires  ), certains liquides étant donnés en litres (1/2 L de lait) ou en unité de mesure de cuisine ( par exemple, 2 cuillères à soupe), l'une des grosses difficulté a donc été de formater l'ensemble de ces quantités en grammes.
 
-Dans le fichier `conversion_tools.py` se trouvent l'ensemble des fonctions nécessaires pour le nettoyage de ces données. 
+Dans le fichier `conversion_tools.py` se trouvent l'ensemble des fonctions nécessaires pour le nettoyage de ces données.
 
-La fonction `conversion` a pour but de gérer ces quantités dont l'unité n'est pas exprimée en grammes. La fonction : 
+Le fichier`references/Poids.txt` recense une liste d'ingrédients et leur valeur en grammes associée, par exemple « reblochon 500 » ou « Échalote 40 ». 
+Le fichier`references/Quantificateurs.txt` recense une liste d'unités et leur valeur en grammes associée, par exemple « sachet 15 » ou « c.à.s 15 ».
+
+
+La fonction `convert` gère les quantités dont l'unité n'est pas exprimée en grammes. La fonction : 
 1) détecte les quantités non libellées en grammes,
 2) parcourt le dictionnaire `dicopoids` (issu du fichier `references/Poids.txt`) pour le nom du produit, 
 3) parcourt le dictionnaire `dicoquantif` (issu du fichier `references/Quantificateurs.txt`) sur les caractères non digitaux de la quantité renseignée sur Marmiton (« cuillères à soupe » dans «  3 cuillères à soupe »).
@@ -62,7 +66,7 @@ La fonction `conversion` a pour but de gérer ces quantités dont l'unité n'est
 
 Ensuite, les caractères digitaux du quantificateur sont multipliés par la valeur correspondante dans les dictionnaires associés. Ainsi pour «  3 cuillères à soupe », on obtient 3x15 g, tandis que pour « 3 poires » on obtient 3x120 g. 
 
-Pour les ingrédients dont la quantité n'est pas spécifiée (par exemple « sel »), on attribue une valeur standard. 
+Pour les ingrédients dont la quantité n'est pas spécifiée et n'apparaissant pas dans les dictionnaires, on attribue une valeur standard. 
 
 Finalement, on supprime les ingrédients présentant une quantité trop spéciale (`delete_exeception`), on convertit les quantités en `float` afin qu'elles soit exploitables (`usable`) et on se ramène à des portions individuelles (`per_person`).
 
