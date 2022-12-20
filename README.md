@@ -11,6 +11,8 @@ Nathan GUESSE • Matthieu KRUBA • Marie-Olive THAURY
 Le but de ce projet est d'évaluer la qualité nutritionnelle de recettes propoposées par le site de cuisine [Marmiton](https://www.marmiton.org/). 
 Pour cela nous nous appuierons sur la [Table de composition nutritionnelle des aliments Ciqual](https://ciqual.anses.fr/) qui est un jeu de données produit par l'*Agence nationale de sécurité sanitaire de l'alimentation, de l'environnement et du travail* sur la composition nutritionnelle des aliments. 
 
+Même si les fonctions codées sont généralisables à tout type de recette, nous porterons une attention toute particulière aux recettes végétariennes, comparativement aux recettes avec viande, le but étant d'évaluer dans quelle mesure les recettes végétariennes sont envisageables pour avoir une alimentation équilibrée et saine. 
+
 
 ## I) Récupération des recettes proposées par Marmiton pour une recherche 
 
@@ -58,11 +60,11 @@ La fonction `conversion` a pour but de gérer ces quantités dont l'unité n'est
 
 *Notons que ces deux dictionnaires ont été enrichi à l’aide de la fonction `what_s_missing` qui détecte les éléments manquants.* 
 
-Ensuite, les caractères digitaux du quantificateur sont multipliés par la valeur correspondante dans les dictionnaires associés. Ainsi pour «  3 cuillères à soupe », on obtient $3*15$ g, tandis que pour « 3 poires » on obtient $3*120$ g. 
+Ensuite, les caractères digitaux du quantificateur sont multipliés par la valeur correspondante dans les dictionnaires associés. Ainsi pour «  3 cuillères à soupe », on obtient 3x15 g, tandis que pour « 3 poires » on obtient 3x120 g. 
 
 Pour les ingrédients dont la quantité n'est pas spécifiée (par exemple « sel »), on attribue une valeur standard. 
 
-Finalement, on supprime les ingrédients présentant une quantité trop spéciale (`delete_exeception`), on convertit les quantités en `float` afin qu'elles soit exploitables (`usable`) et on se ramène à des portions individuelles ( `per_person`).
+Finalement, on supprime les ingrédients présentant une quantité trop spéciale (`delete_exeception`), on convertit les quantités en `float` afin qu'elles soit exploitables (`usable`) et on se ramène à des portions individuelles (`per_person`).
 
 
 
@@ -95,7 +97,7 @@ Vous trouverez dans le fichier `main.py` l'ensemble des fonctions nécessaires �
 
 Notre première intention a été d'aider l'utilisateur à choisir la meilleure recette parmi une liste de propositions Marmiton pour une recherche commune. 
 
-Par exemple, l'utilisateur cherche à cuisiner un *gâteau chocolat* tout en minimisant les apports en sucres. Pour cela, le graphique associé à la fonction `compare_recipe` lui permet  de comparer les différentes recettes proposées par Marmiton pour *gâteau au chocolat*. En survolant le graphique, il pourra même avoir accès à l'apport en sucre pour chaque ingrédient. 
+Par exemple, l'utilisateur cherche à cuisiner un  plat *végétarien* tout en minimisant les apports en sucres. Pour cela, le graphique associé à la fonction `compare_recipe` lui permet  de comparer les différentes recettes proposées par Marmiton pour *végétarien*. En survolant le graphique, il pourra même avoir accès à l'apport en sucre pour chaque ingrédient. 
 
 <div align="center">
   <img src="images/graphique_1.png"><br>
@@ -104,11 +106,11 @@ Par exemple, l'utilisateur cherche à cuisiner un *gâteau chocolat* tout en min
 
 #### Comparaison de deux types de plats. 
 
-Ici, l'objectif est d'aider l'utilisateur à choisir entre deux types de plats. Imaginons qu'il hésite entre deux desserts : *crème brulée* ou *cheese cake* ? 
+Ici, l'objectif est d'aider l'utilisateur à choisir entre deux types de plats. Imaginons qu'il hésite entre deux repas : repas *végétarien* ou avec *viande* ? 
 
 Ce graphique permet de comparer les apports en nutriments de deux plats différents. La fonction `compare_food` associée calcule les moyennes des apports en nutriments de chaque plat sur N recettes, puis représente ces apports dans un diagramme en barres de manière comparative.
 
-Ainsi, l'utilisateur connaîtra parfaitement et immédiatement les apports nutritionels moyens des recettes des deux types de desserts.
+Ainsi, l'utilisateur connaîtra parfaitement et immédiatement les apports nutritionels moyens des recettes des deux types de repas.
 
 <div align="center">
   <img src="images/graphique_2.png"><br>
