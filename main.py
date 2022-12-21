@@ -249,7 +249,7 @@ def nutriTest(df_recipes):
     return full_df
 
 
-#### regression #################
+### Linear model ###
 
 def prepare_reg(df1, df2) : 
     """
@@ -294,6 +294,42 @@ def reg(df1, df2, Y : str, X : list):
     """
     y = prepare_reg(df1, df2)[Y]
     x = prepare_reg(df1, df2)[X]
+    x = sm.add_constant(x)
+    model = sm.OLS(y, x)
+    
+    results = model.fit()
+    print(results.summary())
+
+    
+def prepare_reg2(df):
+    """This function transforms a dataframe with full data into a dataframe with only the number of comments and the three variables "Satsifaisant en protéines", "Satisfaisant en glucides", "Satisfaisant en lipides".
+    
+    Args:
+        df (DataFrame) : a DataFrame with all the data related to one or several recipes
+    Returns:
+        full_df : a df with all the columns needed for the linear model"""
+    nutriSt = nutriTest(df)
+    
+    df_comments = df.groupby('Nom recette').agg({'Nombre de commentaires' : 'first'})
+    
+    full_df = df_comments.merge(nutriSt, on='Nom recette', how='left')
+    
+    #Let's convert True and False values in 1 and 0 integers
+    full_df["Satisfaisant en lipides"] = full_df["Satisfaisant en lipides"].astype(int)
+    full_df["Satisfaisant en glucides"] = full_df["Satisfaisant en glucides"].astype(int)
+    full_df["Satisfaisant en protéines"] = full_df["Satisfaisant en protéines"].astype(int)
+    full_df["Repas équilibré"] = full_df["Repas équilibré"].astype(int)
+    
+    return full_df
+
+def reg2(df, variables : list):
+    """Args :
+        df (DataFrame) : a Dataframe with all the data related to one or several recipes
+        variables (list) : the explanatory variables
+    Prints:
+        The summary of OLS regression of Y (number of comments) on X the selected variables"""
+    y = prepare_reg2(df)['Nombre de commentaires']
+    x = prepare_reg2(df)[variables]
     x = sm.add_constant(x)
     model = sm.OLS(y, x)
     
