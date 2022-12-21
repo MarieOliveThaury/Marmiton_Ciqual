@@ -146,11 +146,11 @@ La fonction `nutriStandard` permet de visualiser pour une recette les macronutri
 
 ## III) Popularité d'une recette en fonction de ses qualités nutritionnelles :
 
-Nous voulions enfin dans notre projet étudier la popularité des recettes et tenter de dégager des facteurs qui peuvent avoir une influence sur cette popularité. Nous avons choisi comme mesure de popularité le nombre de commentaires sur les recettes. La note moyenne ne nous paraissait pas pertinente puisqu'elle nous indiquait davantage la qualité gustative d'une recette plutôt que sa popularité. Ici, en supposant qu'une fraction x constante d'utilisateurs donne son avis dès qu'ils essaient une recette, alors on peut considérer que plus une recette a d'avis, plus elle a été essayée par des utilisateurs. De plus, les notes données sur Marmiton sont généralement comprises entre 4.5 et 5 étoiles et donc n'est pas révélatrice en soit. Par contre, plus la recette est commentée (= notée), plus cette note est pertinente. 
+Nous voulions enfin dans notre projet étudier la popularité des recettes et tenter de dégager des facteurs qui peuvent avoir une influence sur cette popularité. Nous avons choisi comme mesure de popularité le nombre de commentaires sur les recettes. La note moyenne ne nous paraissait pas pertinente puisqu'elle nous indiquait davantage la qualité gustative d'une recette plutôt que sa popularité. Ici, en supposant qu'une fraction x constante d'utilisateurs donne son avis dès qu'ils essaient une recette, alors on peut considérer que plus une recette a d'avis, plus elle a été essayée par des utilisateurs. De plus, les notes données sur Marmiton sont généralement comprises entre 4.5 et 5 étoiles et donc la note n'est pas révélatrice en soit. Par contre, plus la recette est commentée (= notée), plus cette note est pertinente. 
 
 La fonction `reg` présente dans `main.py` permet de produire des régressions linéaires.
 
-Nous avons utilisé les bases de 100 recettes végétariennes et de 100 recettes carnées que nous avons scrappées. Nous avons ajouté une variable bianaire nommée `type` qui vaut 1 en si la recette contient de la viande, et 0 sinon. 
+Nous avons utilisé les bases de 100 recettes végétariennes et de 100 recettes carnées que nous avons scrappées. Nous avons ajouté une variable binaire nommée `type` qui vaut 1 si la recette contient de la viande, et 0 sinon. 
 
 La première régression a été celle du nombre de commentaires sur la présence de viande. Ici, la présence de viande a un impact positif sur le nombre de commentaires, avec en outre un coefficient significatif au seuil de 5%. 
 
