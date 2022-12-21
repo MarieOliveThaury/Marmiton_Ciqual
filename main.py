@@ -221,6 +221,16 @@ def nutriTest(df_recipes):
 #### regression #################
 
 def prepare_reg(df1, df2) : 
+    """
+    Args : 
+        df1 : a pandas DataFrame containing recipes of type 1 (e.g. 100 recipes for 'vegetarien')
+        df2 : a pandas DataFrame containing recipes of type 2 (e.g. 100 recipes for 'meat')
+        
+    Returns : 
+        final_df : a pandasDataFrame with all the recipes of df1 and df2, standardizing the nutrient content of a recipe to a content per 100 grams (e.g. 45 g of protein/100 g of food), and creating a new variable Type corresponding to the type of food.
+    
+    """
+
     
     dfs = [df1, df2] 
     
@@ -239,9 +249,20 @@ def prepare_reg(df1, df2) :
         
     return final_df
 
-def reg(df1, df2, variables : list):
-    y = prepare_reg(df1, df2)['Nombre de commentaires']
-    x = prepare_reg(df1, df2)[variables]
+def reg(df1, df2, Y : str, X : list):
+    
+    """ 
+    Args : 
+        df1 : a pandas DataFrame containing recipes of type 1 (e.g. 100 recipes for 'vegetarien')
+        df2 : a pandas DataFrame containing recipes of type 2 (e.g. 100 recipes for 'meat')
+        Y (str) : the variable we want to predict
+        X (list) : the explanatory variables
+    
+    Prints : 
+        the summary of the OLS linear regression of Y on X
+    """
+    y = prepare_reg(df1, df2)[Y]
+    x = prepare_reg(df1, df2)[X]
     x = sm.add_constant(x)
     model = sm.OLS(y, x)
     
