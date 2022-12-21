@@ -120,6 +120,7 @@ Ainsi, l'utilisateur connaîtra parfaitement et immédiatement les apports nutri
   <img src="images/graphique_2.png"><br>
 </div>
 
+
 #### Une approche normative : recettes végétariennes et apports nutritionnels recommandés
 
 Nous avons souhaité vérifier si les apports nutritionnels des recettes végétariennes en macronutriments (Lipides, Glucides et Protéines) pouvaient être considérés comme satisfaisants.
