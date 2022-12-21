@@ -14,7 +14,9 @@ def looking_for(search : str, N : int) :
         N (int) : the number of recipes you want to request
     
     Returns :
-        result (DataFrame) : contains merged data from Ciqual and Marmiton"""
+        result (DataFrame) : contains merged data from Ciqual and Marmiton
+    """
+    
     st = time.time()
     
     recipes = find_all_recipes(search, N)
@@ -28,6 +30,14 @@ def looking_for(search : str, N : int) :
 
 
 def merge_and_clean(recipe, nutrition) : 
+    """a function to merge Marmiton and Ciquals
+    Args : 
+        recipe : a pandas DataFrame containing the Marmiton scrapped data for one or several recipes 
+        nutrition : a pandas DataFrame containing the Ciqual scrapped data for one or several recipes 
+        
+    Returns :
+         result : a pandas DataFrame gathering Marmiton and Ciqual scrapped data, and for the nutrients, transforming the transforming the content into an effective quantity
+    """
     
     result = recipe.merge(nutrition, on='Ingrédient', how='left')
     result = result.drop_duplicates()
@@ -57,14 +67,32 @@ def merge_and_clean(recipe, nutrition) :
 ### graphs ##############################
 
 def compare_recipes(df_recipes, nutritional_quality : str) :
-    
+    """
+    Args : 
+        df_recipes : a pandas DataFrame which contains several recipes
+        
+    Produces : 
+        a plotly graph to compare the presence and weight of a nutrient in several recipes, and to explain the presence of that nutrient in a recipe using the different ingredients in the recipe.
+    """
     fig = px.bar(df_recipes, x="Nom recette", y=nutritional_quality, color="Ingrédient", 
                  title='Comparaison pour '+ nutritional_quality, width=800, height=500)
     fig.update_layout(showlegend=False)
+    
     return fig
 
 
 def compare_food(df_recipes_1, type1 : str, df_recipes_2, type2 : str):
+    
+    """ 
+    Args : 
+        df_recipes_1 : a pandas DataFrame containing recipes of type 1 (e.g. 100 recipes for 'vegetarien')
+        type1 (str) : e.g. 'vegetarien'
+        df_recipes_2 : a pandas DataFrame containing recipes of type 2 (e.g. 100 recipes for 'viande')
+        type2 (str) : e.g. 'viande'
+        
+    Produces : 
+        a plotly graph to compare the average intake for each nutrient of the two types of dishes.
+    """ 
      
     dfs = [df_recipes_1, df_recipes_2]
     types = [type1, type2]  
@@ -88,6 +116,7 @@ def compare_food(df_recipes_1, type1 : str, df_recipes_2, type2 : str):
 
 
 def nutriStandard(recipe):
+    
     """This function generates a graph on which we can compare the quantity of nutrients (Lipids, Proteins and Glucids) in a given recipe
     with the recommended quantity of nutrients in purcentage of total calorie intake.
     
@@ -101,6 +130,7 @@ def nutriStandard(recipe):
     
     Returns :
         fig (plotly figure) : a graph that shows the quantity of nutrients for the given recipe, and the recommended value for each nutrient"""
+    
     #recipe = looking_for(search, 1)
     
     totalProt = recipe['Protéines (g)'].sum()
@@ -170,10 +200,11 @@ def nutriTest(df_recipes):
     """This function checks if macronutrients intake for a given recipe can be considered as satisfying.
     
     Args :
-        df_recipe (DataFrame) : a DataFrame which contains one or several recipes.
+        df_recipe (DataFrame) : a pandas DataFrame which contains one or several recipes.
         
     Returns :
-        nutritest : a DataFrame with 3 columns telling in the recipe is satisfying in each macronutriment (True / False), and a fourth column telling whether the recipe can be considered as balanced or not."""
+        nutritest : a pandas DataFrame with 3 columns telling in the recipe is satisfying in each macronutrient (True / False), and a fourth column telling whether the recipe can be considered as balanced or not.
+    """
     
     list_recipes = list(df_recipes['Nom recette'].unique())
     
