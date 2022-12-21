@@ -13,6 +13,7 @@ Pour cela nous nous appuierons sur la [Table de composition nutritionnelle des a
 
 Même si les fonctions codées sont généralisables à tout type de recette, nous porterons une attention toute particulière aux recettes végétariennes, comparativement aux recettes avec viande, le but étant d'évaluer dans quelle mesure les recettes végétariennes sont envisageables pour avoir une alimentation équilibrée et saine. 
 
+Nous chercherons finalement à identifier les facteurs nutritionnels pouvant expliquer la popularité d'une recette sur Marmiton.  
 
 ## I) Récupération des recettes proposées par Marmiton pour une recherche 
 
@@ -146,7 +147,9 @@ La fonction `nutriStandard` permet de visualiser pour une recette les macronutri
 
 ## III) Popularité d'une recette en fonction de ses qualités nutritionnelles :
 
-Nous voulions enfin dans notre projet étudier la popularité des recettes et tenter de dégager des facteurs qui peuvent avoir une influence sur cette popularité. Nous avons choisi comme mesure de popularité le nombre de commentaires sur les recettes. La note moyenne ne nous paraissait pas pertinente puisqu'elle nous indiquait davantage la qualité gustative d'une recette plutôt que sa popularité. Ici, en supposant qu'une fraction x constante d'utilisateurs donne son avis dès qu'ils essaient une recette, alors on peut considérer que plus une recette a d'avis, plus elle a été essayée par des utilisateurs. De plus, les notes données sur Marmiton sont généralement comprises entre 4.5 et 5 étoiles et donc la note n'est pas révélatrice en soit. Par contre, plus la recette est commentée (= notée), plus cette note est pertinente. 
+Nous voulions enfin dans notre projet étudier la popularité des recettes et tenter de dégager des facteurs qui peuvent avoir une influence sur cette popularité. 
+
+Nous avons choisi comme mesure de popularité le nombre de commentaires sur les recettes. La note moyenne ne nous paraissait pas pertinente puisqu'elle nous indiquait davantage la qualité gustative d'une recette plutôt que sa popularité. Ici, en supposant qu'une fraction x constante d'utilisateurs donne son avis dès qu'ils essaient une recette, alors on peut considérer que plus une recette a d'avis, plus elle a été essayée par des utilisateurs. De plus, les notes données sur Marmiton sont généralement comprises entre 4.5 et 5 étoiles et donc la note n'est pas révélatrice en soit. Par contre, plus la recette est commentée (= notée), plus cette note est pertinente. 
 
 La fonction `reg` présente dans `main.py` permet de produire des régressions linéaires.
 
