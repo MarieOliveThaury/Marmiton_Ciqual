@@ -7,7 +7,14 @@ import statsmodels.api as sm
 ### preparing the data ##############################
 
 def looking_for(search : str, N : int) : 
+    """This function combines other scrapping function to get a full DataFrame with all the data needed from Marmiton and Ciqual.
     
+    Args :
+        search (str) : the research on Marmiton
+        N (int) : the number of recipes you want to request
+    
+    Returns :
+        result (DataFrame) : contains merged data from Ciqual and Marmiton"""
     st = time.time()
     
     recipes = find_all_recipes(search, N)
