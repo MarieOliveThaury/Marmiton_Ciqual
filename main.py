@@ -258,27 +258,49 @@ def prepare_reg(df1, df2) :
         df2 : a pandas DataFrame containing recipes of type 2 (e.g. 100 recipes for 'meat')
         
     Returns : 
-        final_df : a pandasDataFrame with all the recipes of df1 and df2, standardizing the nutrient content of a recipe to a content per 100 grams (e.g. 45 g of protein/100 g of food), and creating a new variable Type corresponding to the type of food.
+        final_df : a pandasDataFrame with all the recipes of df1 and df2 that : 
+        - standardises the nutrient content of a recipe to a content per 100 grams (e.g. 45 g of protein/100 g of food),
+        - creates a new variable Type corresponding to the type of food, 
+        - indicates if the meal meets the nutritional criteria for proteins, glucids and lipids and global nutrition (cf nutriTest) 
     
     """
 
     
     dfs = [df1, df2] 
     
+    nutrition = pd.DataFrame([])
     opinions = pd.DataFrame([])
     final_df = pd.DataFrame([])
     for i in range(2) :
+        #for the nutrition test 
+        nutriSt = nutriTest(dfs[i])
+        nutrition =  pd.concat([nutrition, nutriSt])
+        
+        #for the number of comments 
         df_comments = dfs[i].groupby('Nom recette').agg({'Nombre de commentaires':'first'})
         opinions = pd.concat([opinions, df_comments])
+        
+        #for the nutritional content 
         sum_nutrition = dfs[i].groupby('Nom recette').sum(numeric_only = True)
         sum_nutrition = sum_nutrition.div(sum_nutrition['Quantité'],axis=0)*100
+        
+        #for the type of food ('vegetarien' vs 'meat') 
         sum_nutrition['Type'] = i
         sum_nutrition = (pd.DataFrame(sum_nutrition)).drop(columns = ['Nombre de commentaires'])
         final_df = pd.concat([final_df, sum_nutrition])
         
+        
     final_df = final_df.merge(opinions, on='Nom recette', how='left')
+    final_df = final_df.merge(nutrition, on='Nom recette', how='left')
+    
+    #Let's convert True and False values in 1 and 0 integers
+    final_df["Satisfaisant en lipides"] = final_df["Satisfaisant en lipides"].astype(int)
+    final_df["Satisfaisant en glucides"] = final_df["Satisfaisant en glucides"].astype(int)
+    final_df["Satisfaisant en protéines"] = final_df["Satisfaisant en protéines"].astype(int)
+    final_df["Repas équilibré"] = final_df["Repas équilibré"].astype(int)
         
     return final_df
+    
 
 def reg(df1, df2, Y : str, X : list):
     
@@ -294,42 +316,6 @@ def reg(df1, df2, Y : str, X : list):
     """
     y = prepare_reg(df1, df2)[Y]
     x = prepare_reg(df1, df2)[X]
-    x = sm.add_constant(x)
-    model = sm.OLS(y, x)
-    
-    results = model.fit()
-    print(results.summary())
-
-    
-def prepare_reg2(df):
-    """This function transforms a dataframe with full data into a dataframe with only the number of comments and the three variables "Satsifaisant en protéines", "Satisfaisant en glucides", "Satisfaisant en lipides".
-    
-    Args:
-        df (DataFrame) : a DataFrame with all the data related to one or several recipes
-    Returns:
-        full_df : a df with all the columns needed for the linear model"""
-    nutriSt = nutriTest(df)
-    
-    df_comments = df.groupby('Nom recette').agg({'Nombre de commentaires' : 'first'})
-    
-    full_df = df_comments.merge(nutriSt, on='Nom recette', how='left')
-    
-    #Let's convert True and False values in 1 and 0 integers
-    full_df["Satisfaisant en lipides"] = full_df["Satisfaisant en lipides"].astype(int)
-    full_df["Satisfaisant en glucides"] = full_df["Satisfaisant en glucides"].astype(int)
-    full_df["Satisfaisant en protéines"] = full_df["Satisfaisant en protéines"].astype(int)
-    full_df["Repas équilibré"] = full_df["Repas équilibré"].astype(int)
-    
-    return full_df
-
-def reg2(df, variables : list):
-    """Args :
-        df (DataFrame) : a Dataframe with all the data related to one or several recipes
-        variables (list) : the explanatory variables
-    Prints:
-        The summary of OLS regression of Y (number of comments) on X the selected variables"""
-    y = prepare_reg2(df)['Nombre de commentaires']
-    x = prepare_reg2(df)[variables]
     x = sm.add_constant(x)
     model = sm.OLS(y, x)
     
