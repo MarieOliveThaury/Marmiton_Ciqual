@@ -143,4 +143,14 @@ La fonction `nutriStandard` permet de visualiser pour une recette les macronutri
 </div>
 
 
-## III) Modélisation ?  
+## III) Modélisation :
+
+Nous voulions enfin dans notre projet étudier la popularité des recettes et tenter de dégager des facteurs qui peuvent avoir une influence sur cette popularité. Nous avons choisi comme mesure de popularité le nombre de commentaires sur les recettes. La note moyenne ne nous paraissait pas pertinente puisqu'elle nous indiquait davantage la qualité gustative d'une recette plûtot que sa popularité. ici, en supposant qu'une fraction x constante d'utilisateurs donne son avis dès qu'ils essaient une recette, alors on peut considérer que plus une recette a d'avis, plus elle a été essayée par des utilisateurs. 
+
+Nous avons utilisé les bases de 100 recettes végétariennes et de 100 recettes carnées que nous avons scrappé ( disponibles dans le dossier references). Nous avons ajouté une variable bianire nommée 'type' qui vaut 1 en si la recette contient de la viande, et 0 sinon. 
+
+La première régression du projet a été celle du nombre de commentaires sur la présence de viande. Ici, la présence de viande a un impact positif sur le nombre de commentaire, avec en outre un coefficient significatif au seuil de 5%. 
+
+Après la première régression, un doute subsistait. Nous avons vu précedemment que les recettes carnées étaient en moyenne plus riches en protéines que les recettes végétariennes. Les recettes végétariennes se voient d'ailleurs souvent reprochés leur plus faible teneur en protéines, qui est perçue comme leur principal défaut. Nous avons donc voulu observé l'impact de la présence de viande sur la popularité d'une recette à égale teneur en protéines. Nous avons pour cela régressé le nombre de commentaires sur la teneur en protéines et la présence de viande. On note que le coefficient de la teneur en protéines n'est significatif à aucun seuil. La présence de viande en revanche augmente toutes choses égales par ailleurs de 9 le nombre de commentaires sur une recette. Ce coefficient est significatif au seuil de 10%. Ici aussi, la présence de viande a un effet assez significative sur le nombre d'avis. 
+
+Enfin, nous avons voulu prendre en compte les principales teneurs en nutriment pour tenter d'expliquer la popularité d'une recette. Nous avons donc régressé le nombre de commentaires sur les principales teneurs en nutriments et sur la présence de viande. Ici, les résultats sont assez décevants. Le R² est très faible, et surtout, aucun coefficient n,'est significatif au seuil de 10%. 
