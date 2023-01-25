@@ -74,7 +74,7 @@ def what_s_missing(dico):
                 print(ingred,qty)
            
         
-def delete_exeception(dico):
+def delete_exception(dico):
     """a function that deletes the ingredients for which the quantity is too complicated.
     Args :
         dico (dict) : a dictionnary containing for each dish the name of the dish, the recipe, the number of people and the number of comments. The form of the dictionary is as indicated above.
@@ -129,7 +129,7 @@ def conversion(dico):
         dico (dict) : the same dictionnary with all the previous modifications 
     """
     convert(dico)
-    delete_exeception(dico)
+    delete_exception(dico)
     usable(dico)
     per_person(dico)
     
