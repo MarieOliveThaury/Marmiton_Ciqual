@@ -1,4 +1,4 @@
-from scrapping.scrapping_ciqual import *
+from scrapping.scrapping_ciqual import nutrition
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
