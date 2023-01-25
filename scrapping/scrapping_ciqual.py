@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from tqdm.auto import tqdm
 #from IPython.display import Image
 import time
-from scrapping.scrapping_marmiton import *
+from scrapping.scrapping_marmiton import find_all_dishes, find_recipe, find_all_recipes
 
 #setting the driver 
 chrome_options = webdriver.ChromeOptions()
