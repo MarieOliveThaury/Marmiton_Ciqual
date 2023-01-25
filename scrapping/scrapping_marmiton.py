@@ -5,8 +5,8 @@ import re
 import numpy as np
 import pandas as pd
 from tqdm.auto import tqdm
-from tools.data_tools import * 
-from tools.conversion_tools import *
+from tools.data_tools import no_accent_and_sg, string_to_float
+from tools.conversion_tools import convert, what_s_missing, delete_exception, usable, per_person, conversion
 
 
 def find_all_dishes(search : str, N : int): 
