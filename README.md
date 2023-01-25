@@ -1,5 +1,7 @@
 # **Evaluation of the nutritional quality of Marmiton recipes**
 
+----------- Vous trouverez la version française dans `README_fr.md`-----------
+
 ENSAE ParisTech 2022-2023 
 
 Nathan GUESSE • Matthieu KRUBA • Marie-Olive THAURY
