@@ -160,6 +160,7 @@ def nutriStandard(recipe):
     #Let's remove columns that we do not use for this graph
     recipe = recipe[['Ingrédient', 'Glucides (g)', 'Lipides (g)', 'Protéines (g)']]
     recipe = recipe.melt(id_vars = ['Ingrédient'], value_name='Valeur')
+    recipe = recipe.rename(columns = {'variable' : 'Nutriment'})
     recipe = recipe.pivot(index=['Nutriment'], columns='Ingrédient', values='Valeur')
     recipe = recipe.reset_index()
     
