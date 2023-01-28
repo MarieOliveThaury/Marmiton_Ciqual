@@ -1,8 +1,13 @@
 from scrapping.scrapping_ciqual import nutrition
+from scrapping.scrapping_marmiton import find_all_recipes
+from tools.data_tools import string_to_float
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import statsmodels.api as sm
+import pandas as pd
+import numpy as np
+import time 
 
 ### preparing the data ##############################
 
